@@ -14,7 +14,7 @@ import string
 # Download required NLTK data
 nltk.download('punkt')
 nltk.download('stopwords')
-
+nltk.download('punkt_tab')
 
 def preprocess(chat):
     pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{1,2}'
