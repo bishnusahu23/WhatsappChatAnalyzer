@@ -5,7 +5,15 @@ import emoji
 from collections import Counter
 import spacy
 import subprocess
+import nltk
+import re
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+import string
 
+# Download required NLTK data
+nltk.download('punkt')
+nltk.download('stopwords')
 
 
 def preprocess(chat):
@@ -75,21 +83,16 @@ def cleaned_message(df):
     temp_df = temp_df[~temp_df['message'].str.strip().isin(['null', 'null\n', ''])]
 
     # remove urls and punctuation
-    # try:
-    #     nlp = spacy.load("en_core_web_sm")
-    # except OSError:
-    #     print("Downloading 'en_core_web_sm' model...")
-    #     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"], check=True)
-    nlp = spacy.load("en_core_web_sm")
 
     def remove_extras(text):
-
-        doc = nlp(text)
-        tokens = [token.text for token in doc if not token.like_url and not token.is_punct]  # Remove URLs & punctuation
+        tokens = word_tokenize(text)  # Tokenization
+        tokens = [word for word in tokens if word not in string.punctuation]  # Remove punctuation
+        tokens = [word for word in tokens if word.lower() not in stopwords.words('english')]  # Remove stopwords
+        tokens = [word for word in tokens if not re.match(r'http[s]?://\S+', word)]  # Remove URLs
         cleaned_text = " ".join(tokens)
-        cleaned_text = re.sub(r'@\d{10,}', '', cleaned_text)
-        cleaned_text = re.sub(r'<.*?>', '', cleaned_text)
-        cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()
+        cleaned_text = re.sub(r'@\d{10,}', '', cleaned_text)  # Remove numbers like @1234567890
+        cleaned_text = re.sub(r'<.*?>', '', cleaned_text)  # Remove HTML tags
+        cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()  # Normalize spaces
         return cleaned_text
 
     temp_df['message'] = temp_df['message'].apply(remove_extras)
