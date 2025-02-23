@@ -5,8 +5,10 @@ seaborn
 streamlit
 urlextract
 wordcloud
-spacy
+
 emoji
 
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.6.0/en_core_web_sm-3.6.0.tar.gz
 
+spacy==3.6.1
+thinc==8.1.10
