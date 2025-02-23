@@ -76,6 +76,7 @@ def cleaned_message(df):
     nlp = spacy.load('en_core_web_sm')
 
     def remove_extras(message):
+
         doc = nlp(message)
         tokens = [token.text for token in doc if not token.like_url and not token.is_punct]  # Remove URLs & punctuation
         cleaned_text = " ".join(tokens)
