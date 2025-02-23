@@ -1,6 +1,4 @@
 import streamlit as st
-import re
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import helper
@@ -87,7 +85,7 @@ if uploaded_file is not None:
         st.title("☁️ Wordcloud")
         wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(figsize=(10, 10))
-        ax.imshow(wc, interpolation="bilinear")
+        ax.imshow(wc, interpolation="bi-linear")
         ax.axis("off")
         st.pyplot(fig)
 
