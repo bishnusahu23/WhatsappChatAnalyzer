@@ -80,14 +80,18 @@ def cleaned_message(df):
     # remove urls and punctuation
 
     def remove_extras(text):
+        text = re.sub(r'http[s]?://\S+', '', text)  # Remove URLs
+        text = re.sub(r'@\d{10,}', '', text)  # Remove numbers like @1234567890
+        text = re.sub(r'<.*?>', '', text)  # Remove HTML tags
 
-        tokens = [word for word in text if word not in string.punctuation]  # Remove punctuation
+        tokens = text.split()  # Tokenize text (split into words)
+
+        tokens = [word for word in tokens if word not in string.punctuation]  # Remove punctuation
         tokens = [word for word in tokens if word.lower() not in stopwords]  # Remove stopwords
-        tokens = [word for word in tokens if not re.match(r'http[s]?://\S+', word)]  # Remove URLs
-        cleaned_text = " ".join(tokens)
-        cleaned_text = re.sub(r'@\d{10,}', '', cleaned_text)  # Remove numbers like @1234567890
-        cleaned_text = re.sub(r'<.*?>', '', cleaned_text)  # Remove HTML tags
+
+        cleaned_text = " ".join(tokens)  # Reconstruct text
         cleaned_text = re.sub(r'\s+', ' ', cleaned_text).strip()  # Normalize spaces
+
         return cleaned_text
 
     temp_df['message'] = temp_df['message'].apply(remove_extras)
