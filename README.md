@@ -56,7 +56,7 @@ streamlit run app.py
 2️⃣ Go to [Streamlit Share](https://share.streamlit.io/).
 3️⃣ Connect your repository and deploy.
 
-🔗 **Live Demo**: [WhatsApp Chat Analyzer App](https://your-streamlit-app-link.streamlit.app)
+🔗 **Live Demo**: [WhatsApp Chat Analyzer App](https://whatsapp-chat-analyzer-wu9evagvjtdffbfmkf2.streamlit.app/)
 
 ## 📂 File Structure
 ```
