@@ -1,11 +1,8 @@
 import pandas as pd
 import re
-import matplotlib.pyplot as plt
-import seaborn as sns
 from wordcloud import WordCloud
 import emoji
 from collections import Counter
-import numpy as np
 import spacy
 import subprocess
 
@@ -13,7 +10,9 @@ import subprocess
 def preprocess(chat):
     pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{1,2}'
     date = re.findall(pattern, chat)
+    date = [x.replace(" - ", "") for x in date]
     text = re.split(pattern, chat)[1:]
+    text = [x.replace(" - ", "") for x in text]
 
     df = pd.DataFrame({'date': date, 'text': text})
     df['date'] = pd.to_datetime(df['date'], format='%m/%d/%y, %H:%M')
@@ -38,7 +37,7 @@ def preprocess(chat):
     df['hour'] = df['date'].dt.hour
     df['weekday'] = df['date'].dt.day_name()
 
-    return df
+    return dfs
 
 def calculate_stats(user, df):
     if user != 'Overall':
@@ -65,7 +64,7 @@ def hourly_distribution(user, df):
         df = df[df['user'] == user]
     return df.groupby('hour')['message'].count()
 
-# cleaning like- removing url, punctuation, stopwords, group notification, medias
+# cleaning like removing url, punctuation, stopwords, group notification, medias
 def cleaned_message(df):
     with open(r"stopwords_hindi-english-telugu.txt", 'r') as file:
         stopwords = file.read()
@@ -82,9 +81,9 @@ def cleaned_message(df):
         subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"], check=True)
         nlp = spacy.load("en_core_web_sm")
 
-    def remove_extras(message):
+    def remove_extras(text):
 
-        doc = nlp(message)
+        doc = nlp(text)
         tokens = [token.text for token in doc if not token.like_url and not token.is_punct]  # Remove URLs & punctuation
         cleaned_text = " ".join(tokens)
         cleaned_text = re.sub(r'@\d{10,}', '', cleaned_text)
