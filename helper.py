@@ -74,12 +74,12 @@ def cleaned_message(df):
     temp_df = temp_df[~temp_df['message'].str.strip().isin(['null', 'null\n', ''])]
 
     # remove urls and punctuation
-    try:
-        nlp = spacy.load("en_core_web_sm")
-    except OSError:
-        print("Downloading 'en_core_web_sm' model...")
-        subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"], check=True)
-        nlp = spacy.load("en_core_web_sm")
+    # try:
+    #     nlp = spacy.load("en_core_web_sm")
+    # except OSError:
+    #     print("Downloading 'en_core_web_sm' model...")
+    #     subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"], check=True)
+    nlp = spacy.load("en_core_web_sm")
 
     def remove_extras(text):
 
