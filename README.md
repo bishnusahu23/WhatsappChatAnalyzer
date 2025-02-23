@@ -18,7 +18,7 @@ WhatsApp Chat Analyzer is a **Streamlit web app** that provides detailed insight
 ## 🛠️ Tech Stack
 - **Python** 🐍
 - **Streamlit** 🎈
-- **spaCy** (for text processing)
+- **re** (for text processing)
 - **Matplotlib & Seaborn** (for visualization)
 - **Pandas** (for data processing)
 
@@ -40,12 +40,12 @@ venv\Scripts\activate    # Windows
 ```bash
 pip install -r requirements.txt
 ```
-
-4️⃣ **Download spaCy model** (if not installed automatically)
-```bash
-python -m spacy download en_core_web_sm
-```
-
+5️⃣ **Export WhatsApp Chat**
+- Open WhatsApp and go to the chat you want to analyze.
+- Tap the three-dot menu (⋮) > More > Export Chat.
+- Choose Without Media and save the .txt file.
+- Upload this file in the Streamlit app for analysis.
+  
 5️⃣ **Run the Streamlit app**
 ```bash
 streamlit run app.py
@@ -68,4 +68,6 @@ streamlit run app.py
 ```
 ## 🌟 Contributing
 Want to improve this project? Feel free to fork and submit a PR! 😊
+
+
 
