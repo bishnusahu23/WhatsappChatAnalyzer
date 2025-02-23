@@ -8,3 +8,4 @@ wordcloud
 spacy
 emoji
 
+spacy.load('en_core_web_sm')

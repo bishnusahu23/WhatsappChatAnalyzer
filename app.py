@@ -85,7 +85,7 @@ if uploaded_file is not None:
         st.title("☁️ Wordcloud")
         wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(figsize=(10, 10))
-        ax.imshow(wc, interpolation="bi-linear")
+        ax.imshow(wc, interpolation="bilinear")
         ax.axis("off")
         st.pyplot(fig)
 
