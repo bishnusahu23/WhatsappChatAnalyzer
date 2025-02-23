@@ -8,7 +8,6 @@ import subprocess
 import nltk
 import re
 from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
 import string
 
 # Download required NLTK data
@@ -87,7 +86,7 @@ def cleaned_message(df):
     def remove_extras(text):
         tokens = word_tokenize(text)  # Tokenization
         tokens = [word for word in tokens if word not in string.punctuation]  # Remove punctuation
-        tokens = [word for word in tokens if word.lower() not in stopwords.words('english')]  # Remove stopwords
+        tokens = [word for word in tokens if word.lower() not in stopwords]  # Remove stopwords
         tokens = [word for word in tokens if not re.match(r'http[s]?://\S+', word)]  # Remove URLs
         cleaned_text = " ".join(tokens)
         cleaned_text = re.sub(r'@\d{10,}', '', cleaned_text)  # Remove numbers like @1234567890
