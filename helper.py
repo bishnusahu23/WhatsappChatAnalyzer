@@ -3,17 +3,13 @@ import re
 from wordcloud import WordCloud
 import emoji
 from collections import Counter
-import spacy
-import subprocess
-import nltk
+
 import re
-from nltk.tokenize import word_tokenize
+
 import string
 
-# Download required NLTK data
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('punkt_tab')
+
+
 
 def preprocess(chat):
     pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{1,2}'
@@ -84,8 +80,8 @@ def cleaned_message(df):
     # remove urls and punctuation
 
     def remove_extras(text):
-        tokens = word_tokenize(text)  # Tokenization
-        tokens = [word for word in tokens if word not in string.punctuation]  # Remove punctuation
+
+        tokens = [word for word in text if word not in string.punctuation]  # Remove punctuation
         tokens = [word for word in tokens if word.lower() not in stopwords]  # Remove stopwords
         tokens = [word for word in tokens if not re.match(r'http[s]?://\S+', word)]  # Remove URLs
         cleaned_text = " ".join(tokens)
