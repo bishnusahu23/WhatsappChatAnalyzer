@@ -37,7 +37,7 @@ def preprocess(chat):
     df['hour'] = df['date'].dt.hour
     df['weekday'] = df['date'].dt.day_name()
 
-    return dfs
+    return df
 
 def calculate_stats(user, df):
     if user != 'Overall':
