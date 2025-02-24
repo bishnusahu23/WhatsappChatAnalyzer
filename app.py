@@ -2,14 +2,32 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import helper
+import zipfile
+import io
 
 st.sidebar.title("📊 WhatsApp Chat Analyzer")
 st.markdown("👈 **Please open the sidebar to upload a chat file and start analysis!**")
 uploaded_file = st.sidebar.file_uploader("📁 Choose a file")
 
+
 if uploaded_file is not None:
-    bytes_data = uploaded_file.getvalue()
-    data = bytes_data.decode("utf-8")
+
+    if uploaded_file.name.endswith('.zip'):
+        with zipfile.ZipFile(io.BytesIO(uploaded_file.read()), 'r') as z:
+            file_names = z.namelist()
+
+            # Extract the first text file found in the ZIP
+            txt_files = [f for f in file_names if f.endswith('.txt')]
+            if txt_files:
+                with z.open(txt_files[0]) as f:
+                    data = f.read().decode("utf-8")
+            else:
+                st.error("No valid WhatsApp chat text file found in the ZIP.")
+                st.stop()
+    else:
+        bytes_data = uploaded_file.getvalue()
+        data = bytes_data.decode("utf-8")
+
     df = helper.preprocess(data)
 
     user_list = df['user'].unique().tolist()
