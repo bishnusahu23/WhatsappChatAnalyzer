@@ -13,20 +13,24 @@ uploaded_file = st.sidebar.file_uploader("📁 Choose a file")
 if uploaded_file is not None:
 
     if uploaded_file.name.endswith('.zip'):
-        with zipfile.ZipFile(io.BytesIO(uploaded_file.read()), 'r') as z:
-            file_names = z.namelist()
+        try:
+            with zipfile.ZipFile(io.BytesIO(uploaded_file.getvalue()), 'r') as z:
+                file_names = z.namelist()
 
-            # Extract the first text file found in the ZIP
-            txt_files = [f for f in file_names if f.endswith('.txt')]
-            if txt_files:
-                with z.open(txt_files[0]) as f:
-                    data = f.read().decode("utf-8")
-            else:
-                st.error("No valid WhatsApp chat text file found in the ZIP.")
-                st.stop()
+                # Look for a text file inside the ZIP
+                txt_files = [f for f in file_names if f.endswith('.txt')]
+                if txt_files:
+                    with z.open(txt_files[0]) as f:
+                        data = f.read().decode(errors="ignore")  # Ignore encoding errors
+                else:
+                    st.error("No valid WhatsApp chat text file found in the ZIP.")
+                    st.stop()
+        except zipfile.BadZipFile:
+            st.error("The uploaded file is not a valid ZIP file. Please upload a correct ZIP file.")
+            st.stop()
     else:
         bytes_data = uploaded_file.getvalue()
-        data = bytes_data.decode("utf-8")
+        data = bytes_data.decode(errors="ignore")
 
     df = helper.preprocess(data)
 
