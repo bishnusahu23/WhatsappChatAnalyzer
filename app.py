@@ -4,6 +4,7 @@ import seaborn as sns
 import helper
 
 st.sidebar.title("📊 WhatsApp Chat Analyzer")
+st.markdown("👈 **Please open the sidebar to upload a chat file and start analysis!**")
 uploaded_file = st.sidebar.file_uploader("📁 Choose a file")
 
 if uploaded_file is not None:
