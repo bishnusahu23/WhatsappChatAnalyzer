@@ -46,8 +46,10 @@ def preprocess(chat):
 def calculate_stats(user, df):
     if user != 'Overall':
         df = df[df['user'] == user]
+
     num_messages = df.shape[0]
     media_len = df[df['message'] == '<Media omitted>\n'].shape[0]
+    df['message'] = df['message'].astype(str)
     word_count = sum(df['message'].str.split().str.len())
     link_count = df['message'].str.contains("http").sum()
     return num_messages, word_count, media_len, link_count
