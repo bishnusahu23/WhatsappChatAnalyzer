@@ -18,15 +18,14 @@ WhatsApp Chat Analyzer is a **Streamlit web app** that provides detailed insight
 ## 🛠️ Tech Stack
 - **Python** 🐍
 - **Streamlit** 🎈
-- **spaCy** (for text processing)
 - **Matplotlib & Seaborn** (for visualization)
 - **Pandas** (for data processing)
 
 ## 👅 Installation & Setup
 1️⃣ **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/whatsapp-chat-analyzer.git
-cd whatsapp-chat-analyzer
+git clone https://github.com/bishnusahu23/WhatsappChatAnalyzer.git
+cd WhatsappChatAnalyzer
 ```
 
 2️⃣ **Create a virtual environment (Recommended)**
@@ -41,10 +40,11 @@ venv\Scripts\activate    # Windows
 pip install -r requirements.txt
 ```
 
-4️⃣ **Download spaCy model** (if not installed automatically)
-```bash
-python -m spacy download en_core_web_sm
-```
+4️⃣ **Export WhatsApp Chat**
+- Open WhatsApp and go to the chat you want to analyze.
+- Tap the three-dot menu (⋮) > **More** > **Export Chat**.
+- Choose **Without Media** and save the `.txt` file.
+- Upload this file in the Streamlit app for analysis.
 
 5️⃣ **Run the Streamlit app**
 ```bash
@@ -56,7 +56,8 @@ streamlit run app.py
 2️⃣ Go to [Streamlit Share](https://share.streamlit.io/).
 3️⃣ Connect your repository and deploy.
 
-🔗 **Live Demo**: [WhatsApp Chat Analyzer App](https://your-streamlit-app-link.streamlit.app)
+[Run on Streamlit](https://whatsapp-chat-analyzer-wu9evagvjtdffbfmkf2.streamlit.app/)
+
 
 ## 📂 File Structure
 ```
@@ -66,6 +67,8 @@ streamlit run app.py
  ├📂 requirements.txt # Dependencies
  ├📂 README.md       # Documentation
 ```
+
 ## 🌟 Contributing
 Want to improve this project? Feel free to fork and submit a PR! 😊
+
 
