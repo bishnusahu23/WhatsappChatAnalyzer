@@ -81,7 +81,7 @@ def cleaned_message(df):
 
     def remove_extras(text):
         text = re.sub(r'http[s]?://\S+', '', text)  # Remove URLs
-        text = re.sub(r'@\d{10,}', '', text)  # Remove numbers like @1234567890
+        text = re.sub(r'[@]?\d{10,}', '', text)  # Remove numbers like @1234567890
         text = re.sub(r'<.*?>', '', text)  # Remove HTML tags
 
         tokens = text.split()  # Tokenize text (split into words)
