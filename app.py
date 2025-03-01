@@ -44,6 +44,8 @@ def set_bg_from_local(image_path):
 
 set_bg_from_local("backgroundImage.jpg")
 
+st.markdown('<div class="overlay">', unsafe_allow_html=True)
+
 st.title("WhatsApp Chat Analyzer")
 
 # File Upload Section
