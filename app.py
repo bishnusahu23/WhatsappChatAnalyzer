@@ -22,16 +22,17 @@ def set_bg_from_local(image_path):
         background-attachment: fixed;
     }}
 
-    /* Overlay effect */
-    .content-container {{
-        background: rgba(0, 0, 0, 0.6);  /* Semi-transparent black overlay */
-        padding: 30px;
-        border-radius: 15px;
-        max-width: 85%;
+    /* Overlay container that wraps all content */
+    .main-content {{
+        background: rgba(0, 0, 0, 0.6);  /* Dark semi-transparent overlay */
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 90%;
         margin: auto;
+        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
     }}
 
-    /* Make all text readable */
+    /* Ensure text remains readable */
     h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stDataFrame, .stTable {{
         color: white !important;
     }}
@@ -43,7 +44,7 @@ def set_bg_from_local(image_path):
 
 set_bg_from_local("backgroundImage.jpg")
 
-st.markdown('<div class="content-container">', unsafe_allow_html=True)
+st.markdown('<div class="main-content">', unsafe_allow_html=True)
 
 st.title("WhatsApp Chat Analyzer")
 
