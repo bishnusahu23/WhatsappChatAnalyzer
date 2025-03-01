@@ -134,4 +134,5 @@ if uploaded_file is not None:
             plt.rcParams['font.family'] = 'Segoe UI Emoji'
             fig, ax = plt.subplots()
             ax.pie(emojis[1], labels=emojis[0], autopct='%0.2f')
+            ax.set_facecolor("black")
             st.pyplot(fig)
