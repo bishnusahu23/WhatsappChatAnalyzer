@@ -4,6 +4,8 @@ import seaborn as sns
 import helper
 import zipfile
 import io
+import pandas as pd
+import plotly.express as px
 
 st.title("WhatsApp Chat Analyzer")
 
@@ -130,14 +132,9 @@ if uploaded_file is not None:
             emojis = helper.emoji_counter(selected_user, df)
             st.dataframe(emojis)
         with col2:
-
-            plt.rcParams['font.family'] = 'Segoe UI Emoji'
-            fig, ax = plt.subplots(facecolor="white")
-            wedges, texts, autotexts = ax.pie(
-                emojis[1], labels=emojis[0], autopct='%0.2f', textprops={'fontsize': 12}
-            )
-            ax.set_facecolor("white")
-            for text in texts + autotexts:
-                text.set_color("black")
-                text.set_fontname("Segoe UI Emoji")
-            st.pyplot(fig)
+            df = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
+            fig = px.pie(df, names="Emoji", values="Count", title="Most Used Emojis",
+                         color_discrete_sequence=px.colors.qualitative.Pastel)
+            fig.update_layout(paper_bgcolor="black", plot_bgcolor="black",
+                              font_color="white")
+            st.plotly_chart(fig)
