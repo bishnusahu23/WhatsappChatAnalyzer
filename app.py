@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import matplotlib.pyplot as plt
 import helper
 import zipfile
 import io
@@ -93,6 +94,15 @@ if uploaded_file is not None:
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'})
         st.plotly_chart(fig)
 
+        # Wordcloud
+        st.subheader("Wordcloud")
+        wc = helper.create_wordcloud(selected_user, df)
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.imshow(wc, interpolation="bilinear")
+        ax.axis("off")
+        st.pyplot(fig)
+
+
         # Emoji Analysis
         st.subheader("Emoji Analysis")
         col1, col2 = st.columns(2)
@@ -103,5 +113,5 @@ if uploaded_file is not None:
             df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
-            fig.update_layout(paper_bgcolor="black", plot_bgcolor="black", font_color="white")
+            fig.update_layout(paper_bgcolor="black", font_color="white")
             st.plotly_chart(fig)
