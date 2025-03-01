@@ -151,7 +151,8 @@ if uploaded_file is not None:
                                   bgcolor="black"  # Background color
                               )
                               )
-
+            fig.update_traces(
+                textfont=dict(color="black"))
             # Set pie chart text labels to black
             fig.update_traces(textfont=dict(color="black"))
             st.plotly_chart(fig)
