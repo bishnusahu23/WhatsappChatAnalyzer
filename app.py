@@ -118,5 +118,8 @@ if uploaded_file is not None:
             df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
-            fig.update_layout(paper_bgcolor="rgba(0,0,255,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="black")
+            fig.update_layout(paper_bgcolor="rgba(0,0,255,0)", plot_bgcolor="rgba(0,0,0,0)")
+
+            # Set pie chart text labels to black
+            fig.update_traces(textfont=dict(color="black"))
             st.plotly_chart(fig)
