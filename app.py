@@ -12,19 +12,18 @@ def set_bg_from_local(image_path):
     with open(image_path, "rb") as img_file:
         encoded_img = base64.b64encode(img_file.read()).decode()
 
-    # Apply background image with CSS
-    st.markdown(
-        f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{encoded_img}");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }}
+    # Apply background image and overlay with CSS
+    page_bg = f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/png;base64,{encoded_img}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
 
-        /* Overlay container for all content */
-        .overlay {{
+    /* Full-screen overlay */
+    .overlay {{
         position: absolute;
         top: 0;
         left: 0;
@@ -36,16 +35,16 @@ def set_bg_from_local(image_path):
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        }}
+    }}
 
-        /* Ensure all text is white */
-        h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stDataFrame, .stTable {{
-            color: white !important;
-        }}
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    /* Ensuring text is readable */
+    h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stDataFrame, .stTable {{
+        color: white !important;
+    }}
+    </style>
+    """
+
+    st.markdown(page_bg, unsafe_allow_html=True)
 
 
 set_bg_from_local("backgroundImage.jpg")
