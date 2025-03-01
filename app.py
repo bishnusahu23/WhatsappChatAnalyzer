@@ -5,24 +5,29 @@ import matplotlib.pyplot as plt
 import helper
 import zipfile
 import io
+import base64
 
+def set_bg_from_local(image_path):
 
-background_image_url = "backgroundImage.jpg"  # Change this to your image URL
-st.markdown(
-    f"""
-    <style>
-    .stApp {{
-        background-image: url("{background_image_url}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+    with open(image_path, "rb") as img_file:
+        encoded_img = base64.b64encode(img_file.read()).decode()
 
+    # Apply the image as background using CSS
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{encoded_img}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
+set_bg_from_local("backgroundImage.jpg")
 
 st.title("WhatsApp Chat Analyzer")
 
@@ -113,5 +118,5 @@ if uploaded_file is not None:
             df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
-            fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="white")
+            fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="black")
             st.plotly_chart(fig)
