@@ -83,6 +83,14 @@ if uploaded_file is not None:
         temp = helper.monthly_timeline(selected_user, df)
         fig = px.line(temp, x='time', y='message', markers=True, title="Messages Over Time",
                       line_shape='spline', color_discrete_sequence=['green'])
+        fig.update_layout(
+            hoverlabel=dict(
+                font_size=14,  # Font size
+                font_family="Arial",  # Font family
+                font_color="white",  # Font color
+                bgcolor="black"  # Background color
+            )
+        )
         st.plotly_chart(fig)
 
         # Daily Activity
@@ -90,6 +98,14 @@ if uploaded_file is not None:
         daily_temp = helper.daily_activity(selected_user, df)
         fig = px.line(daily_temp, x='date', y='message', markers=True, title="Messages Per Day",
                       line_shape='spline', color_discrete_sequence=['red'])
+        fig.update_layout(
+            hoverlabel=dict(
+                font_size=14,  # Font size
+                font_family="Arial",  # Font family
+                font_color="white",  # Font color
+                bgcolor="black"  # Background color
+            )
+        )
         st.plotly_chart(fig)
 
         # Weekly Activity Heatmap
@@ -97,6 +113,14 @@ if uploaded_file is not None:
         heatmap = helper.weekly_activity_heatmap(selected_user, df)
         fig = px.imshow(heatmap, color_continuous_scale='Blues', title="Messages Heatmap",
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'})
+        fig.update_layout(
+            hoverlabel=dict(
+                font_size=14,  # Font size
+                font_family="Arial",  # Font family
+                font_color="white",  # Font color
+                bgcolor="black"  # Background color
+            )
+        )
         st.plotly_chart(fig)
 
         # Wordcloud
@@ -118,7 +142,15 @@ if uploaded_file is not None:
             df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
-            fig.update_layout(paper_bgcolor="rgba(0,0,255,0)", plot_bgcolor="rgba(0,0,0,0)")
+
+            fig.update_layout(paper_bgcolor="rgba(0,0,255,0)", plot_bgcolor="rgba(0,0,0,0)",
+                              hoverlabel=dict(
+                                  font_size=14,  # Font size
+                                  font_family="Arial",  # Font family
+                                  font_color="white",  # Font color
+                                  bgcolor="black"  # Background color
+                              )
+                              )
 
             # Set pie chart text labels to black
             fig.update_traces(textfont=dict(color="black"))
