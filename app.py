@@ -25,11 +25,17 @@ def set_bg_from_local(image_path):
 
         /* Overlay container for all content */
         .overlay {{
-            background: rgba(0, 0, 0, 0.7);  /* Dark semi-transparent overlay */
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 80%;
-            margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);  /* Dark semi-transparent overlay */
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         }}
 
         /* Ensure all text is white */
