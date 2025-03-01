@@ -152,7 +152,8 @@ if uploaded_file is not None:
                               )
                               )
             fig.update_traces(
-                textfont=dict(color="black"))
-            # Set pie chart text labels to black
-            fig.update_traces(textfont=dict(color="black"))
+                textfont=dict(color="black"),
+                hoverinfo="label+percent+value",
+                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}"
+            )
             st.plotly_chart(fig)
