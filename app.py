@@ -25,7 +25,7 @@ def set_bg_from_local(image_path):
 
         /* Overlay container for text */
         .main-container {{
-            background: rgba(0, 0, 0, 1);  /* Dark semi-transparent overlay */
+            background: rgba(255, 255, 255, 0.7);  /* Dark semi-transparent overlay */
             padding: 20px;
             border-radius: 10px;
             color: white;
