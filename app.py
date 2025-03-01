@@ -108,7 +108,7 @@ if uploaded_file is not None:
         col1, col2 = st.columns(2)
         with col1:
             emojis = helper.emoji_counter(selected_user, df)
-            st.dataframe(emojis)
+            st.dataframe({"Emoji": emojis[0], "Count": emojis[1]})
         with col2:
             df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
