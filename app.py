@@ -132,7 +132,12 @@ if uploaded_file is not None:
         with col2:
 
             plt.rcParams['font.family'] = 'Segoe UI Emoji'
-            fig, ax = plt.subplots()
-            ax.pie(emojis[1], labels=emojis[0], autopct='%0.2f')
-            ax.set_facecolor("black")
+            fig, ax = plt.subplots(facecolor="white")
+            wedges, texts, autotexts = ax.pie(
+                emojis[1], labels=emojis[0], autopct='%0.2f', textprops={'fontsize': 12}
+            )
+            ax.set_facecolor("white")
+            for text in texts + autotexts:
+                text.set_color("black")
+                text.set_fontname("Segoe UI Emoji")
             st.pyplot(fig)
