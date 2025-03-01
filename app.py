@@ -8,11 +8,11 @@ import io
 import base64
 
 def set_bg_from_local(image_path):
-
+    """Encodes a local image and sets it as Streamlit background."""
     with open(image_path, "rb") as img_file:
         encoded_img = base64.b64encode(img_file.read()).decode()
 
-    # Apply the image as background using CSS
+    # Apply CSS for background and text overlay
     st.markdown(
         f"""
         <style>
@@ -21,6 +21,19 @@ def set_bg_from_local(image_path):
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+        }}
+
+        /* Overlay container for text */
+        .main-container {{
+            background: rgba(0, 0, 0, 0.6);  /* Dark semi-transparent overlay */
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }}
+
+        /* Improve readability for text elements */
+        h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stDataFrame, .stTable {{
+            color: white !important;
         }}
         </style>
         """,
