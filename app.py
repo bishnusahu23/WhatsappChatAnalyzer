@@ -130,6 +130,8 @@ if uploaded_file is not None:
             emojis = helper.emoji_counter(selected_user, df)
             st.dataframe(emojis)
         with col2:
+
+            plt.rcParams['font.family'] = 'Segoe UI Emoji'
             fig, ax = plt.subplots()
             ax.pie(emojis[1], labels=emojis[0], autopct='%0.2f')
             st.pyplot(fig)
