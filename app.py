@@ -12,7 +12,7 @@ def set_bg_from_local(image_path):
     with open(image_path, "rb") as img_file:
         encoded_img = base64.b64encode(img_file.read()).decode()
 
-    # Apply background image and overlay with CSS
+    # Apply background image with CSS
     page_bg = f"""
     <style>
     .stApp {{
@@ -22,22 +22,16 @@ def set_bg_from_local(image_path):
         background-attachment: fixed;
     }}
 
-    /* Full-screen overlay */
-    .overlay {{
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);  /* Dark semi-transparent overlay */
+    /* Overlay effect */
+    .content-container {{
+        background: rgba(0, 0, 0, 0.6);  /* Semi-transparent black overlay */
         padding: 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        border-radius: 15px;
+        max-width: 85%;
+        margin: auto;
     }}
 
-    /* Ensuring text is readable */
+    /* Make all text readable */
     h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stDataFrame, .stTable {{
         color: white !important;
     }}
@@ -49,7 +43,7 @@ def set_bg_from_local(image_path):
 
 set_bg_from_local("backgroundImage.jpg")
 
-st.markdown('<div class="overlay">', unsafe_allow_html=True)
+st.markdown('<div class="content-container">', unsafe_allow_html=True)
 
 st.title("WhatsApp Chat Analyzer")
 
