@@ -8,49 +8,26 @@ import io
 import base64
 
 def set_bg_from_local(image_path):
-    """Encodes local image and sets it as Streamlit background"""
+
     with open(image_path, "rb") as img_file:
         encoded_img = base64.b64encode(img_file.read()).decode()
 
-    # Apply background image with CSS
-    page_bg = f"""
-    <style>
-    .stApp {{
-        background-image: url("data:image/png;base64,{encoded_img}");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-    }}
+    # Apply the image as background using CSS
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/png;base64,{encoded_img}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
 
-    /* Full-page overlay to make text readable */
-    .overlay {{
-        background: rgba(0, 0, 0, 0.6);  /* Dark semi-transparent overlay */
-        padding: 20px;
-        border-radius: 10px;
-        max-width: 85%;
-        margin: auto;
-        box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-    }}
-
-    /* Improve text contrast */
-    h1, h2, h3, h4, h5, h6, p, label, .stTextInput, .stDataFrame, .stTable {{
-        color: white !important;
-    }}
-
-    /* Make the file uploader more readable */
-    .stFileUploader {{
-        background-color: rgba(0, 0, 0, 0.8) !important;
-        border-radius: 10px;
-    }}
-    </style>
-    """
-
-    st.markdown(page_bg, unsafe_allow_html=True)
-
-
-set_bg_from_local("backgroundImage.jpg")
-
-st.markdown('<div class="overlay">', unsafe_allow_html=True)
+set_bg_from_local("backgroundImage2.jpg")
 
 st.title("WhatsApp Chat Analyzer")
 
@@ -143,5 +120,3 @@ if uploaded_file is not None:
                          color_discrete_sequence=px.colors.qualitative.Pastel)
             fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="black")
             st.plotly_chart(fig)
-
-st.markdown('</div>', unsafe_allow_html=True)
