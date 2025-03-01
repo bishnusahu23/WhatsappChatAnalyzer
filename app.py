@@ -137,3 +137,5 @@ if uploaded_file is not None:
                          color_discrete_sequence=px.colors.qualitative.Pastel)
             fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)", font_color="black")
             st.plotly_chart(fig)
+
+st.markdown('</div>', unsafe_allow_html=True)
