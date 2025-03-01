@@ -5,7 +5,25 @@ import helper
 import zipfile
 import io
 
-st.title("📊 WhatsApp Chat Analyzer")
+
+background_image_url = "backgroundImage.jpg"  # Change this to your image URL
+st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url("{background_image_url}");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+
+st.title("WhatsApp Chat Analyzer")
 
 # File Upload Section
 with st.expander("Upload WhatsApp Chat File"):
@@ -45,7 +63,7 @@ if uploaded_file is not None:
     if st.button("Show Analysis"):
         # Top Statistics
         num_messages, length, media_len, len_links = helper.calculate_stats(selected_user, df)
-        st.subheader("📌 Chat Summary")
+        st.subheader("Chat Summary")
         col1, col2 = st.columns(2)
         with col1:
             st.metric("Total Messages", num_messages)
@@ -55,28 +73,28 @@ if uploaded_file is not None:
             st.metric("Links Shared", len_links)
 
         # Monthly Activity
-        st.subheader("📅 Monthly Activity")
+        st.subheader("Monthly Activity")
         temp = helper.monthly_timeline(selected_user, df)
         fig = px.line(temp, x='time', y='message', markers=True, title="Messages Over Time",
                       line_shape='spline', color_discrete_sequence=['green'])
         st.plotly_chart(fig)
 
         # Daily Activity
-        st.subheader("📆 Daily Activity")
+        st.subheader("Daily Activity")
         daily_temp = helper.daily_activity(selected_user, df)
         fig = px.line(daily_temp, x='date', y='message', markers=True, title="Messages Per Day",
                       line_shape='spline', color_discrete_sequence=['red'])
         st.plotly_chart(fig)
 
         # Weekly Activity Heatmap
-        st.subheader("🔥 Weekly Activity Heatmap")
+        st.subheader("Weekly Activity Heatmap")
         heatmap = helper.weekly_activity_heatmap(selected_user, df)
         fig = px.imshow(heatmap, color_continuous_scale='Blues', title="Messages Heatmap",
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'})
         st.plotly_chart(fig)
 
         # Emoji Analysis
-        st.subheader("😀 Emoji Analysis")
+        st.subheader("Emoji Analysis")
         col1, col2 = st.columns(2)
         with col1:
             emojis = helper.emoji_counter(selected_user, df)
