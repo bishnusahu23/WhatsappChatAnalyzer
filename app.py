@@ -107,6 +107,21 @@ if uploaded_file is not None:
         ax.axis("off")
         st.pyplot(fig)
 
+        st.markdown("""
+            <style>
+            /* Apply black background with padding to both columns */
+            div[data-testid="column"] {
+                background: rgba(0, 0, 0, 0.9);  /* Black background */
+                padding: 20px;
+                border-radius: 10px;
+            }
+
+            /* Ensure text and dataframe font color is white */
+            .stDataFrame, h3, h2, h1, p, label {
+                color: white !important;
+            }
+            </style>
+        """, unsafe_allow_html=True)
 
         # Emoji Analysis
         st.subheader("Emoji Analysis")
