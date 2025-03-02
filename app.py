@@ -201,7 +201,7 @@ if uploaded_file is not None:
             dic=helper.most_active_user(df)
             dataframe=pd.DataFrame(dic)
 
-            fig=px.bar( data_frame=dataframe,x='names',y='counts', orientation='h', title='Most active user',
+            fig=px.bar( data_frame=dataframe,y='names',x='counts', orientation='h', title='Most active user',
                         color_discrete_sequence=px.colors.qualitative.Pastel)
 
             fig.update_layout(
