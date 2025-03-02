@@ -86,7 +86,7 @@ if uploaded_file is not None:
         fig.update_layout(
 
             hoverlabel=dict(
-                font_size=20,
+                font_size=14,
                 font_family="Arial",
                 font_color="blue",  # Tooltip text color
                 bgcolor="black"  # Tooltip background color
@@ -106,7 +106,7 @@ if uploaded_file is not None:
         fig.update_layout(
 
             hoverlabel=dict(
-                font_size=20,
+                font_size=14,
                 font_family="Arial",
                 font_color="blue",  # Tooltip text color
                 bgcolor="black"  # Tooltip background color
@@ -122,11 +122,11 @@ if uploaded_file is not None:
         st.subheader("Weekly Activity Heatmap")
         heatmap = helper.weekly_activity_heatmap(selected_user, df)
         fig = px.imshow(heatmap,color_continuous_scale='Blues', title="Messages Heatmap",
-                        labels={'x': 'Hour of the Day', 'y': 'Day of the Week'})
+                        labels={'x': 'Hour of the Day', 'y': 'Day of the Week'}, text_auto=True)
         fig.update_layout(
 
             hoverlabel=dict(
-                font_size=20,
+                font_size=14,
                 font_family="Arial",
                 font_color="blue",  # Tooltip text color
                 bgcolor="black"  # Tooltip background color
@@ -162,7 +162,7 @@ if uploaded_file is not None:
                 paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
                 plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
                 hoverlabel=dict(
-                    font_size=20,
+                    font_size=14,
                     font_family="Arial",
                     font_color="blue",  # Tooltip text color
                     bgcolor="black"  # Tooltip background color
