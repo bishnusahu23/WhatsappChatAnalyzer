@@ -140,6 +140,7 @@ def monthly_timeline(user, df):
 def most_active_user(df):
     users=list(df['user'].unique())
     users.remove('group_notification')
+    users.remove('Meta AI')
     names=[]
     counts=[]
     for user in users:
