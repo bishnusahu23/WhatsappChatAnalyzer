@@ -157,6 +157,7 @@ if uploaded_file is not None:
 
         fig.update_traces(
             textfont=dict(color="black"),
+            hovertemplate="Hour: %{x}<br>Day: %{y}<extra></extra>"
         )
         st.plotly_chart(fig)
 
