@@ -143,24 +143,26 @@ if uploaded_file is not None:
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
 
-            # Ensure proper background and tooltip visibility
+            # Update layout for background and hoverlabel styling
             fig.update_layout(
                 paper_bgcolor="rgba(0,0,255,0)",
                 plot_bgcolor="rgba(0,0,0,0)",
                 hoverlabel=dict(
                     font_size=14,
                     font_family="Arial",
-                    font_color="white",  # White text for tooltip
-                    bgcolor="black"  # Black background for tooltip
+                    font_color="white",  # Ensure tooltip text is visible
+                    bgcolor="black"  # Solid black background for contrast
                 )
             )
 
-            # Set pie chart labels to black
+            # Ensure pie chart text labels are black and hoverlabels are visible
             fig.update_traces(
-                textfont=dict(color="black"),  # This makes the labels black
+                textfont=dict(color="black"),  # Makes pie chart labels black
                 hoverinfo="label+percent+value",
-                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}"
+                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}",
+                opacity=1  # Ensures tooltips are not transparent
             )
 
             st.plotly_chart(fig)
+
 
