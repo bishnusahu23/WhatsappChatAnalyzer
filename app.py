@@ -31,6 +31,36 @@ set_bg_from_local("backgroundImage2.jpg")
 
 st.title("WhatsApp Chat Analyzer")
 
+st.markdown(
+    """
+    **Welcome to WhatsApp Chat Analyzer!**  
+    This app helps you analyze your WhatsApp conversations by providing insights such as:  
+    ✅ Most active participants  
+    ✅ Message frequency over time  
+    ✅ Most used words & emojis  
+    ✅ Response time patterns and more!  
+
+    ---
+
+    💻 **Best Experience on PC**  
+    While the app works on mobile devices, it is **best used on a PC** for smooth navigation and better visualization.  
+    Some features may not display optimally on smaller screens.  
+
+    ---
+
+    📂 **How to Export Your WhatsApp Chat File**  
+    1️⃣ Open **WhatsApp** on your phone.  
+    2️⃣ Go to the chat you want to analyze.  
+    3️⃣ Tap the **three dots (⋮) Menu** in the top-right corner.  
+    4️⃣ Select **More > Export Chat**.  
+    5️⃣ Choose **Without Media** for faster processing.  
+    6️⃣ Save or send the `.txt` file to yourself.  
+    7️⃣ Upload the file below to start your analysis!  
+
+    🚀 **Upload your file and start exploring your chats like never before!**  
+    """
+)
+
 # File Upload Section
 with st.expander("Upload WhatsApp Chat File"):
     uploaded_file = st.file_uploader("Choose a .txt or .zip file")
