@@ -245,7 +245,7 @@ if uploaded_file is not None:
             )
             st.plotly_chart(fig)
 
-            st.subheader("Avg Response Time per User")
+
             avg_response_time = helper.average_response_time_user(df)
             fig = px.bar(avg_response_time, x="User", y="Avg Response Time (minutes)",
              title="Average Response Time Per User",
