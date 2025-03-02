@@ -37,6 +37,7 @@ def preprocess(chat):
     df['day'] = df['timestamp'].dt.day
     df['hour'] = df['timestamp'].dt.hour
     df['weekday'] = df['timestamp'].dt.day_name()
+    df["date"] = df["timestamp"].dt.date
 
     return df
 
@@ -54,7 +55,7 @@ def calculate_stats(user, df):
 def daily_activity(user, df):
     if user != 'Overall':
         df = df[df['user'] == user]
-    return df.groupby(df['date'].dt.date)['message'].count().reset_index()
+    return df.groupby(df['date'])['message'].count().reset_index()
 
 def weekly_activity_heatmap(user, df):
     if user != 'Overall':
