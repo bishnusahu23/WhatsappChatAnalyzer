@@ -137,5 +137,14 @@ def monthly_timeline(user, df):
     return temp
 
 
-
+def most_active_user(df):
+    users=list(df['user'].unique())
+    users.remove('group_notification')
+    names=[]
+    counts=[]
+    for user in users:
+        count=len(df[df['user']==user])
+        names.append(user)
+        counts.append(count)
+    return {'names':names,'counts':counts}
 

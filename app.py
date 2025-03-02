@@ -197,4 +197,24 @@ if uploaded_file is not None:
 
             st.plotly_chart(fig)
 
+        if selected_user=='overall':
+            dic=helper.most_active_user(df)
+            dataframe=pd.DataFrame(dic)
 
+            fig=px.bar( data_frame=dataframe,x='names',y='counts', orientation='h', title='Most active user',
+                        color_discrete_sequence=px.colors.qualitative.Pastel)
+
+            fig.update_layout(
+
+                hoverlabel=dict(
+                    font_size=14,
+                    font_family="Arial",
+                    font_color="blue",  # Tooltip text color
+                    bgcolor="black"  # Tooltip background color
+                )
+            )
+
+            fig.update_traces(
+                textfont=dict(color="black")
+            )
+            st.plotly_chart(fig)
