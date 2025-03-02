@@ -140,8 +140,9 @@ def monthly_timeline(user, df):
 
 def most_active_user(df):
     users=list(df['user'].unique())
-    if any(users[users=='group_notification' or users=='Meta AI']):
+    if any(users[users=='group_notification']):
         users.remove('group_notification')
+    elif any(users[users=='Meta AI']):
         users.remove('Meta AI')
     else:
         pass
