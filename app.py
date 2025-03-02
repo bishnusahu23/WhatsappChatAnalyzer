@@ -111,7 +111,7 @@ if uploaded_file is not None:
         # Weekly Activity Heatmap
         st.subheader("Weekly Activity Heatmap")
         heatmap = helper.weekly_activity_heatmap(selected_user, df)
-        fig = px.imshow(heatmap, color_continuous_scale='Blues', title="Messages Heatmap",
+        fig = px.imshow(heatmap,color_continuous_scale='Blues', title="Messages Heatmap",
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'})
         fig.update_layout(
             hoverlabel=dict(
@@ -143,14 +143,24 @@ if uploaded_file is not None:
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
 
-            fig.update_layout(paper_bgcolor="rgba(0,0,255,0)", plot_bgcolor="rgba(0,0,0,0)",
-                              hoverlabel=dict(
-                                  font_size=14,  # Font size
-                                  font_family="Arial",  # Font family
-                                  font_color="black",  # Font color
-                                  bgcolor="black"  # Background color
-                              )
-                              )
+            # Ensure proper background and tooltip visibility
+            fig.update_layout(
+                paper_bgcolor="rgba(0,0,255,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                hoverlabel=dict(
+                    font_size=14,
+                    font_family="Arial",
+                    font_color="white",  # White text for tooltip
+                    bgcolor="black"  # Black background for tooltip
+                )
+            )
 
+            # Set pie chart labels to black
+            fig.update_traces(
+                textfont=dict(color="black"),  # This makes the labels black
+                hoverinfo="label+percent+value",
+                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}"
+            )
 
             st.plotly_chart(fig)
+
