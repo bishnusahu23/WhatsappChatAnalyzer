@@ -223,29 +223,11 @@ if uploaded_file is not None:
 
             st.subheader("Response Time Analysis")
 
-            col1, col2 = st.columns(2)
-
-            # Average Response Time per User
-            with col1:
-                st.subheader("Avg Response Time per User")
-                avg_response_time=helper.average_response_time_user(df)
-                st.dataframe(avg_response_time)
-
-            # Peak Response Hours
-            with col2:
-                st.subheader("Peak Response Time Hours")
-                fig = px.histogram(df, x="hour", title="Peak Response Time Hours",
-                                   labels={"hour": "Hour of the Day"},
-                                   color_discrete_sequence=["blue"], nbins=24)
-
-                fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-
-                st.plotly_chart(fig)
 
             # response time
             response_time_df= helper.calculate_response_time(df)
-            fig = px.histogram(response_time_df['response_time'], title='Response time',
-                         color_discrete_sequence=px.colors.qualitative.Pastel,
+            fig = px.histogram(response_time_df['response_time'], title='Overall response time',
+                         color_discrete_sequence=px.colors.qualitative.Pastel, log_y=True
                          )
 
             fig.update_layout(
@@ -261,4 +243,22 @@ if uploaded_file is not None:
             fig.update_traces(
                 textfont=dict(color="black")
             )
+            st.plotly_chart(fig)
+
+            st.subheader("Avg Response Time per User")
+            avg_response_time = helper.average_response_time_user(df)
+            fig = px.bar(avg_response_time, x="User", y="Avg Response Time (minutes)",
+             title="Average Response Time Per User",
+             color_discrete_sequence=['blue'])
+
+            fig.update_layout(xaxis_title="User", yaxis_title="Response Time (minutes)",
+                              hoverlabel=dict(
+                                  font_size=14,
+                                  font_family="Arial",
+                                  font_color="blue",  # Tooltip text color
+                                  bgcolor="black"  # Tooltip background color
+                              )
+                              )
+            ig.update_traces(
+                textfont=dict(color="black")
             st.plotly_chart(fig)
