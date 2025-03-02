@@ -74,6 +74,7 @@ def cleaned_message(df):
 
     temp_df = df[df['user'] != 'group_notification']
     temp_df = temp_df[temp_df['message'] != '<Media omitted>\n']
+    temp_df = temp_df[temp_df['message'] != 'This message was deleted\n']
     temp_df = temp_df[~temp_df['message'].str.strip().isin(['null', 'null\n', ''])]
 
     # remove urls and punctuation
@@ -139,8 +140,11 @@ def monthly_timeline(user, df):
 
 def most_active_user(df):
     users=list(df['user'].unique())
-    users.remove('group_notification')
-    users.remove('Meta AI')
+    if any(users[users=='group_notification' or users=='Meta AI']):
+        users.remove('group_notification')
+        users.remove('Meta AI')
+    else:
+        pass
     names=[]
     counts=[]
     for user in users:
