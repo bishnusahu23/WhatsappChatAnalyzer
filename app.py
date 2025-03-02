@@ -99,14 +99,7 @@ if uploaded_file is not None:
         heatmap = helper.weekly_activity_heatmap(selected_user, df)
         fig = px.imshow(heatmap,color_continuous_scale='Blues', title="Messages Heatmap",
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'})
-        fig.update_layout(
-            hoverlabel=dict(
-                font_size=14,  # Font size
-                font_family="Arial",  # Font family
-                font_color="white",  # Font color
-                bgcolor="black"  # Background color
-            )
-        )
+
         st.plotly_chart(fig)
 
         # Wordcloud
@@ -133,17 +126,16 @@ if uploaded_file is not None:
                 paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
                 plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
                 hoverlabel=dict(
-                    font_size=14,
+                    font_size=45,
                     font_family="Arial",
-                    font_color="white",  # Tooltip text color
+                    font_color="blue",  # Tooltip text color
                     bgcolor="black"  # Tooltip background color
                 )
             )
 
             fig.update_traces(
                 textfont=dict(color="black"),
-                hoverinfo="label+percent+value",
-                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}"
+
             )
 
             st.plotly_chart(fig)
