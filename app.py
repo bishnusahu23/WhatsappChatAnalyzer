@@ -146,21 +146,13 @@ if uploaded_file is not None:
             # Update layout for background and hoverlabel styling
             fig.update_layout(
                 paper_bgcolor="rgba(0,0,255,0)",
-                plot_bgcolor="rgba(0,0,0,0)",
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="white",  # Ensure tooltip text is visible
-                    bgcolor="black"  # Solid black background for contrast
-                )
+                plot_bgcolor="rgba(0,0,0,0)"
+
             )
 
             # Ensure pie chart text labels are black and hoverlabels are visible
             fig.update_traces(
-                textfont=dict(color="black"),  # Makes pie chart labels black
-                hoverinfo="label+percent+value",
-                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}",
-                opacity=1  # Ensures tooltips are not transparent
+                textfont=dict(color="black")
             )
 
             st.plotly_chart(fig)
