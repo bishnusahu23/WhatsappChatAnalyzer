@@ -7,12 +7,14 @@ import zipfile
 import io
 import base64
 
-def set_bg_from_local(image_path):
 
+# ==========================
+# Set Background Image
+# ==========================
+def set_bg_from_local(image_path):
     with open(image_path, "rb") as img_file:
         encoded_img = base64.b64encode(img_file.read()).decode()
 
-    # Apply the image as background using CSS
     st.markdown(
         f"""
         <style>
@@ -27,36 +29,38 @@ def set_bg_from_local(image_path):
         unsafe_allow_html=True
     )
 
+
 set_bg_from_local("backgroundImage2.jpg")
 
+# ==========================
+# App Title & Description
+# ==========================
 st.title("WhatsApp Chat Analyzer")
 
-with st.expander("Show Description"):
+with st.expander("About This App"):
     st.markdown(
         """
-        **Welcome to WhatsApp Chat Analyzer!**  
-        This app helps you analyze your WhatsApp conversations by providing insights such as:  
+        This application provides in-depth insights into WhatsApp conversations, including:  
+        - Message trends over time  
         - Most active participants  
-        - Message frequency over time  
-        - Most used words and emojis  
-        - Response time patterns and more  
+        - Commonly used words and emojis  
+        - Response time analysis  
 
         **Best Experience on PC**  
-        While the app works on mobile devices, it is best used on a PC for smooth navigation and better visualization.  
+        The application is optimized for desktop use for better visualization.  
 
-        **How to Export Your WhatsApp Chat File**  
+        **How to Export Your WhatsApp Chat**  
         1. Open WhatsApp on your phone.  
-        2. Go to the chat you want to analyze.  
-        3. Tap the three dots (⋮) menu in the top-right corner.  
-        4. Select More > Export Chat.  
-        5. Choose Without Media for faster processing.  
-        6. Save or send the .txt file to yourself.  
-        7. Upload the file below to start your analysis.  
+        2. Select the chat you want to analyze.  
+        3. Tap **More > Export Chat** (choose *Without Media* for faster processing).  
+        4. Upload the **.txt** or **.zip** file below.  
         """
     )
 
+# ==========================
 # File Upload Section
-with st.expander("Upload WhatsApp Chat File"):
+# ==========================
+with st.expander("Upload Your Chat File"):
     uploaded_file = st.file_uploader("Choose a .txt or .zip file")
 
 if uploaded_file is not None:
@@ -77,9 +81,10 @@ if uploaded_file is not None:
     else:
         data = uploaded_file.getvalue().decode(errors="ignore")
 
-    # Preprocess Data
-    df = helper.preprocess(data)
-
+    # ==========================
+    # Data Processing
+    # ==========================
+    df = helper.preprocess_chat(data)
     user_analysis = st.toggle("Analyze Specific User", value=False)
     selected_user = "Overall"
 
@@ -89,176 +94,103 @@ if uploaded_file is not None:
         selected_user = st.selectbox("Select a user", user_list)
 
     if st.button("Show Analysis"):
-        # Top Statistics
-        num_messages, length, media_len, len_links = helper.calculate_stats(selected_user, df)
+        # ==========================
+        # Chat Summary
+        # ==========================
         st.subheader("Chat Summary")
+        num_messages, word_count, media_count, link_count = helper.chat_statistics(selected_user, df)
+
         col1, col2 = st.columns(2)
         with col1:
             st.metric("Total Messages", num_messages)
-            st.metric("Media Shared", media_len)
+            st.metric("Media Shared", media_count)
         with col2:
-            st.metric("Total Words", length)
-            st.metric("Links Shared", len_links)
+            st.metric("Total Words", word_count)
+            st.metric("Links Shared", link_count)
 
+        # ==========================
         # Monthly Activity
+        # ==========================
         st.subheader("Monthly Activity")
-        temp = helper.monthly_timeline(selected_user, df)
-        fig = px.line(temp, x='time', y='message', markers=True, title="Messages Over Time",
+        monthly_data = helper.monthly_timeline(selected_user, df)
+        fig = px.line(monthly_data, x='time', y='message', markers=True, title="Messages Over Time",
                       line_shape='spline', color_discrete_sequence=['green'])
-        fig.update_layout(
-
-            hoverlabel=dict(
-                font_size=14,
-                font_family="Arial",
-                font_color="blue",  # Tooltip text color
-                bgcolor="black"  # Tooltip background color
-            )
-        )
-
-        fig.update_traces(
-            textfont=dict(color="black"),
-        )
         st.plotly_chart(fig)
 
+        # ==========================
         # Daily Activity
+        # ==========================
         st.subheader("Daily Activity")
-        daily_temp = helper.daily_activity(selected_user, df)
-        fig = px.line(daily_temp, x='date', y='message', markers=True, title="Messages Per Day",
+        daily_data = helper.daily_message_count(selected_user, df)
+        fig = px.line(daily_data, x='date', y='message', markers=True, title="Messages Per Day",
                       line_shape='spline', color_discrete_sequence=['red'])
-        fig.update_layout(
-
-            hoverlabel=dict(
-                font_size=14,
-                font_family="Arial",
-                font_color="blue",  # Tooltip text color
-                bgcolor="black"  # Tooltip background color
-            )
-        )
-
-        fig.update_traces(
-            textfont=dict(color="black"),
-        )
         st.plotly_chart(fig)
 
+        # ==========================
         # Weekly Activity Heatmap
+        # ==========================
         st.subheader("Weekly Activity Heatmap")
-        heatmap = helper.weekly_activity_heatmap(selected_user, df)
-        fig = px.imshow(heatmap,color_continuous_scale='Blues', title="Messages Heatmap",
+        heatmap_data = helper.weekly_activity(selected_user, df)
+        fig = px.imshow(heatmap_data, color_continuous_scale='Blues', title="Messages Heatmap",
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'}, text_auto=True)
-        fig.update_layout(
-
-            hoverlabel=dict(
-                font_size=14,
-                font_family="Arial",
-                font_color="blue",  # Tooltip text color
-                bgcolor="black"  # Tooltip background color
-            )
-        )
-
-        fig.update_traces(
-            textfont=dict(color="black"),
-            hovertemplate="Hour: %{x}<br>Day: %{y}<extra></extra>"
-        )
         st.plotly_chart(fig)
 
-        # Wordcloud
-        st.subheader("Wordcloud")
-        wc = helper.create_wordcloud(selected_user, df)
+        # ==========================
+        # Word Cloud
+        # ==========================
+        st.subheader("Word Cloud")
+        wordcloud = helper.generate_wordcloud(selected_user, df)
         fig, ax = plt.subplots(figsize=(10, 10))
-        ax.imshow(wc, interpolation="bilinear")
+        ax.imshow(wordcloud, interpolation="bilinear")
         ax.axis("off")
         st.pyplot(fig)
 
-
+        # ==========================
         # Emoji Analysis
+        # ==========================
         st.subheader("Emoji Analysis")
         col1, col2 = st.columns(2)
         with col1:
-            emojis = helper.emoji_counter(selected_user, df)
-            st.dataframe({"Emoji": emojis[0], "Count": emojis[1]})
+            emoji_data = helper.emoji_usage(selected_user, df)
+            st.dataframe({"Emoji": emoji_data[0], "Count": emoji_data[1]})
         with col2:
-            df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
+            df_emoji = pd.DataFrame({"Emoji": emoji_data[0], "Count": emoji_data[1]})
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
-
-            fig.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
-                plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="blue",  # Tooltip text color
-                    bgcolor="black"  # Tooltip background color
-                )
-            )
-
-            fig.update_traces(
-                textfont=dict(color="black"),
-            )
-
             st.plotly_chart(fig)
 
-        if selected_user=='Overall':
-            dic=helper.most_active_user(df)
-            dataframe=pd.DataFrame(dic)
-            st.subheader('Active users')
-            fig=px.bar( data_frame=dataframe,y='names',x='counts', orientation='h', title='Most active user',
-                        color_discrete_sequence=px.colors.qualitative.Pastel,
-                        labels={'names': 'Name', 'counts': 'Count of messages'})
-
-            fig.update_layout(
-
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="blue",  # Tooltip text color
-                    bgcolor="black"  # Tooltip background color
-                )
-            )
-
-            fig.update_traces(
-                textfont=dict(color="black")
-            )
+        # ==========================
+        # Active Users Analysis
+        # ==========================
+        if selected_user == 'Overall':
+            st.subheader("Most Active Users")
+            active_users = helper.most_active_user(df)
+            df_active = pd.DataFrame(active_users)
+            fig = px.bar(df_active, y='names', x='counts', orientation='h', title="Most Active Users",
+                         color_discrete_sequence=px.colors.qualitative.Pastel)
             st.plotly_chart(fig)
 
-            st.subheader("Response Time Analysis")
+        # ==========================
+        # Response Time Analysis
+        # ==========================
+        st.subheader("Response Time Analysis")
+        col1, col2 = st.columns(2)
 
-            col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("Average Response Time per User")
+            avg_response_time = helper.average_response_time(df)
+            st.dataframe(avg_response_time)
 
-            # Average Response Time per User
-            with col1:
-                st.subheader("Avg Response Time per User")
-                avg_response_time=helper.average_response_time(df)
-                st.dataframe(avg_response_time)
-
-            # Peak Response Hours
-            with col2:
-                st.subheader("Peak Response Time Hours")
-                fig = px.histogram(df, x="hour", title="Peak Response Time Hours",
-                                   labels={"hour": "Hour of the Day"},
-                                   color_discrete_sequence=["blue"], nbins=24)
-
-                fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-
-                st.plotly_chart(fig)
-
-            # response time
-            response_time_df= helper.calculate_response_time(df)
-            fig = px.histogram(response_time_df['response_time'], title='Response time',
-                         color_discrete_sequence=px.colors.qualitative.Pastel,
-                         )
-
-            fig.update_layout(
-
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="blue",  # Tooltip text color
-                    bgcolor="black"  # Tooltip background color
-                )
-            )
-
-            fig.update_traces(
-                textfont=dict(color="black")
-            )
+        with col2:
+            st.subheader("Peak Response Time Hours")
+            fig = px.histogram(df, x="hour", title="Peak Response Time Hours",
+                               labels={"hour": "Hour of the Day"},
+                               color_discrete_sequence=["blue"], nbins=24)
             st.plotly_chart(fig)
+
+        # Response Time Distribution
+        st.subheader("Response Time Distribution")
+        response_time_data = helper.compute_response_time(df)
+        fig = px.histogram(response_time_data, x='response_time', title="Response Time Distribution",
+                           color_discrete_sequence=px.colors.qualitative.Pastel)
+        st.plotly_chart(fig)
