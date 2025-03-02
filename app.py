@@ -147,13 +147,10 @@ if uploaded_file is not None:
                               hoverlabel=dict(
                                   font_size=14,  # Font size
                                   font_family="Arial",  # Font family
-                                  font_color="white",  # Font color
+                                  font_color="black",  # Font color
                                   bgcolor="black"  # Background color
                               )
                               )
-            fig.update_traces(
-                textfont=dict(color="black"),
-                hoverinfo="label+percent+value",
-                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}"
-            )
+
+
             st.plotly_chart(fig)
