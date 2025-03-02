@@ -202,7 +202,8 @@ if uploaded_file is not None:
             dataframe=pd.DataFrame(dic)
 
             fig=px.bar( data_frame=dataframe,y='names',x='counts', orientation='h', title='Most active user',
-                        color_discrete_sequence=px.colors.qualitative.Pastel)
+                        color_discrete_sequence=px.colors.qualitative.Pastel,
+                        labels={'names': 'Name', 'counts': 'Count of messages'})
 
             fig.update_layout(
 
