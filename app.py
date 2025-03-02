@@ -83,14 +83,7 @@ if uploaded_file is not None:
         temp = helper.monthly_timeline(selected_user, df)
         fig = px.line(temp, x='time', y='message', markers=True, title="Messages Over Time",
                       line_shape='spline', color_discrete_sequence=['green'])
-        fig.update_layout(
-            hoverlabel=dict(
-                font_size=14,  # Font size
-                font_family="Arial",  # Font family
-                font_color="white",  # Font color
-                bgcolor="black"  # Background color
-            )
-        )
+
         st.plotly_chart(fig)
 
         # Daily Activity
@@ -98,14 +91,7 @@ if uploaded_file is not None:
         daily_temp = helper.daily_activity(selected_user, df)
         fig = px.line(daily_temp, x='date', y='message', markers=True, title="Messages Per Day",
                       line_shape='spline', color_discrete_sequence=['red'])
-        fig.update_layout(
-            hoverlabel=dict(
-                font_size=14,  # Font size
-                font_family="Arial",  # Font family
-                font_color="white",  # Font color
-                bgcolor="black"  # Background color
-            )
-        )
+
         st.plotly_chart(fig)
 
         # Weekly Activity Heatmap
@@ -143,16 +129,21 @@ if uploaded_file is not None:
             fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                          color_discrete_sequence=px.colors.qualitative.Pastel)
 
-            # Update layout for background and hoverlabel styling
             fig.update_layout(
-                paper_bgcolor="rgba(0,0,255,0)",
-                plot_bgcolor="rgba(0,0,0,0)"
-
+                paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
+                plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
+                hoverlabel=dict(
+                    font_size=14,
+                    font_family="Arial",
+                    font_color="white",  # Tooltip text color
+                    bgcolor="black"  # Tooltip background color
+                )
             )
 
-            # Ensure pie chart text labels are black and hoverlabels are visible
             fig.update_traces(
-                textfont=dict(color="black")
+                textfont=dict(color="black"),
+                hoverinfo="label+percent+value",
+                hovertemplate="<b>%{label}</b><br>Count: %{value}<br>Percentage: %{percent}"
             )
 
             st.plotly_chart(fig)
