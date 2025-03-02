@@ -15,8 +15,8 @@ def preprocess(chat):
     text = re.split(pattern, chat)[1:]
     text = [x.replace(" - ", "") for x in text]
 
-    df = pd.DataFrame({'date': date, 'text': text})
-    df['date'] = pd.to_datetime(df['date'], format='%m/%d/%y, %H:%M')
+    df = pd.DataFrame({'timestamp': date, 'text': text})
+    df['timestamp'] = pd.to_datetime(df['timestamp'], format='%m/%d/%y, %H:%M')
 
     name, message = [], []
     for i in df['text']:
@@ -32,11 +32,11 @@ def preprocess(chat):
     df['message'] = message
     df.drop(columns=['text'], inplace=True)
 
-    df['year'] = df['date'].dt.year
-    df['month'] = df['date'].dt.strftime('%b')
-    df['day'] = df['date'].dt.day
-    df['hour'] = df['date'].dt.hour
-    df['weekday'] = df['date'].dt.day_name()
+    df['year'] = df['timestamp'].dt.year
+    df['month'] = df['timestamp'].dt.strftime('%b')
+    df['day'] = df['timestamp'].dt.day
+    df['hour'] = df['timestamp'].dt.hour
+    df['weekday'] = df['timestamp'].dt.day_name()
 
     return df
 
@@ -154,3 +154,42 @@ def most_active_user(df):
         counts.append(count)
     return {'names':names,'counts':counts}
 
+
+def calculate_response_time(df):
+    df = df[df["user"] != "group_notification"]
+    df = df[df["user"] != "Meta AI"]
+
+    df["date"] = df["timestamp"].dt.date
+
+    df["prev_user"] = df["user"].shift(1)
+    df["prev_timestamp"] = df["timestamp"].shift(1)
+    df["prev_date"] = df["date"].shift(1)  # Shifted date for comparison
+
+    # Compute Response Time (only when user changes and same-day chat)
+    df["response_time"] = (df["timestamp"] - df["prev_timestamp"]).dt.total_seconds() / 60  # Convert to minutes
+
+    # Ignore consecutive messages from the same user
+    df.loc[df["user"] == df["prev_user"], "response_time"] = None
+
+    # Ignore response time when chat moves to a new day
+    df.loc[df["date"] != df["prev_date"], "response_time"] = None
+
+    # Drop extra columns
+    df.drop(columns=["prev_user", "prev_timestamp", "prev_date"], inplace=True)
+    df['response_time'] = df['response_time'].fillna(0)
+    return df
+
+# Calculate average response time per user
+def average_response_time(df):
+    avg_response_time = df.groupby("user")["response_time"].mean().dropna().reset_index()
+    avg_response_time.columns = ["User", "Avg Response Time (minutes)"]
+    return avg_response_time
+
+
+def weekday_vs_weekend(df):
+    df["is_weekend"] = df["weekday"].isin(["Saturday", "Sunday"])
+
+    # Average response time on weekdays vs. weekends
+    weekend_vs_weekday = df.groupby("is_weekend")["response_time"].mean().reset_index()
+    weekend_vs_weekday["is_weekend"] = weekend_vs_weekday["is_weekend"].map({True: "Weekend", False: "Weekday"})
+    return weekend_vs_weekday
