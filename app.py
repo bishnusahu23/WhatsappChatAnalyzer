@@ -55,8 +55,6 @@ if uploaded_file is not None:
 
     # Preprocess Data
     df = helper.preprocess(data)
-    st.write(df.head())
-
 
     user_analysis = st.toggle("Analyze Specific User", value=False)
     selected_user = "Overall"
