@@ -182,12 +182,14 @@ def calculate_response_time(df):
 
 # Calculate average response time per user
 def average_response_time_user(df):
+    df=calculate_response_time(df)
     avg_response_time = df.groupby("user")["response_time"].mean().dropna().reset_index()
     avg_response_time.columns = ["User", "Avg Response Time (minutes)"]
     return avg_response_time
 
 
 def weekday_vs_weekend(df):
+    df = calculate_response_time(df)
     df["is_weekend"] = df["weekday"].isin(["Saturday", "Sunday"])
 
     # Average response time on weekdays vs. weekends
