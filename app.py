@@ -259,6 +259,6 @@ if uploaded_file is not None:
                                   bgcolor="black"  # Tooltip background color
                               )
                               )
-            ig.update_traces(
-                textfont=dict(color="black")
+            fig.update_traces(
+                textfont=dict(color="black"))
             st.plotly_chart(fig)
