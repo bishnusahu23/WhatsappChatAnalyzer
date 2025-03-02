@@ -197,7 +197,7 @@ if uploaded_file is not None:
 
             st.plotly_chart(fig)
 
-        if selected_user=='overall':
+        if selected_user=='Overall':
             dic=helper.most_active_user(df)
             dataframe=pd.DataFrame(dic)
 
