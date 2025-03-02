@@ -245,20 +245,10 @@ if uploaded_file is not None:
             )
             st.plotly_chart(fig)
 
-
-            avg_response_time = helper.average_response_time_user(df)
-            fig = px.bar(avg_response_time, x="User", y="Avg Response Time (minutes)",
-             title="Average Response Time Per User",
-             color_discrete_sequence=['blue'])
-
-            fig.update_layout(xaxis_title="User", yaxis_title="Response Time (minutes)",
-                              hoverlabel=dict(
-                                  font_size=14,
-                                  font_family="Arial",
-                                  font_color="blue",  # Tooltip text color
-                                  bgcolor="black"  # Tooltip background color
-                              )
-                              )
-            fig.update_traces(
-                textfont=dict(color="black"))
-            st.plotly_chart(fig)
+            col1,col2=st.columns(2)
+            with col1:
+                avg_response_time = helper.average_response_time_user(df)
+                st.dataframe(avg_response_time)
+            with col2:
+                wkvswend=helper.weekday_vs_weekend(df)
+                st.dataframe(wkvswend)
