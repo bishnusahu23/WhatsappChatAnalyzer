@@ -252,4 +252,4 @@ if uploaded_file is not None:
                 st.dataframe(avg_response_time,hide_index=True)
             with col2:
                 day_response=helper.day_wise_response_time(df)
-                st.dataframe(day_response,hide_index=True)
+                st.dataframe(day_response,hide_index=True, use_container_width=True)
