@@ -9,14 +9,14 @@ import string
 
 
 def preprocess(chat):
-    pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{1,2}'
+    pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s?[APM\u202F]*'
     date = re.findall(pattern, chat)
-    date = [x.replace(" - ", "") for x in date]
     text = re.split(pattern, chat)[1:]
-    text = [x.replace(" - ", "") for x in text]
-
+    text = [re.sub(r'\s*-\s*', '', x) for x in text]
     df = pd.DataFrame({'timestamp': date, 'text': text})
-    df['timestamp'] = pd.to_datetime(df['timestamp'], format='%m/%d/%y, %H:%M')
+
+    df['text'] = df['text'].str.strip()
+    df['timestamp'] = pd.to_datetime(df['timestamp'], format='mixed')
 
     name, message = [], []
     for i in df['text']:
