@@ -172,7 +172,7 @@ def calculate_response_time(df):
 
     df.loc[df["response_time"] > 240, "response_time"] = None
 
-    # Drop extra columns
+    # Drop columns
     df.drop(columns=["prev_user", "prev_timestamp"], inplace=True)
     df['response_time'] = df['response_time'].fillna(0)
     return df
