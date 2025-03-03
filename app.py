@@ -257,6 +257,6 @@ if uploaded_file is not None:
                 avg_response_time = helper.average_response_time_user(df)
                 st.dataframe(avg_response_time,hide_index=True,use_container_width=True)
             with col2:
-                st.subheader('Average response time per day')
+                st.subheader('Average response time over days')
                 day_response=helper.day_wise_response_time(df)
                 st.dataframe(day_response,hide_index=True, use_container_width=True)
