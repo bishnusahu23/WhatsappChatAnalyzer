@@ -170,7 +170,7 @@ def calculate_response_time(df):
     # Ignore consecutive messages from the same user
     df.loc[df["user"] == df["prev_user"], "Response time (minutes)"] = None
 
-    df.loc[df["response_time"] > 240, "Response time (minutes)"] = None
+    df.loc[df["Response time (minutes)"] > 240, "Response time (minutes)"] = None
 
     # Drop columns
     df.drop(columns=["prev_user", "prev_timestamp"], inplace=True)
