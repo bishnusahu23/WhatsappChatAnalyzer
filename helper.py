@@ -185,11 +185,8 @@ def average_response_time_user(df):
     return avg_response_time
 
 
-def weekday_vs_weekend(df):
+def day_wise_response_time(df):
     df = calculate_response_time(df)
-    df["is_weekend"] = df["weekday"].isin(["Saturday", "Sunday"])
+    day_wise_response = df.groupby("weekday")["response_time"].mean().reset_index()
 
-    # Average response time on weekdays vs. weekends
-    weekend_vs_weekday = df.groupby("is_weekend")["response_time"].mean().reset_index()
-    weekend_vs_weekday["is_weekend"] = weekend_vs_weekday["is_weekend"].map({True: "Weekend", False: "Weekday"})
-    return weekend_vs_weekday
+    return day_wise_response
