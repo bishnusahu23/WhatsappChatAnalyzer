@@ -36,7 +36,7 @@ def preprocess(chat):
     df['month'] = df['timestamp'].dt.strftime('%b')
     df['day'] = df['timestamp'].dt.day
     df['hour'] = df['timestamp'].dt.hour
-    df['weekday'] = df['timestamp'].dt.day_name()
+    df['Day_name'] = df['timestamp'].dt.day_name()
     df["date"] = df["timestamp"].dt.date
 
     return df
@@ -60,7 +60,7 @@ def daily_activity(user, df):
 def weekly_activity_heatmap(user, df):
     if user != 'Overall':
         df = df[df['user'] == user]
-    heatmap_data = df.groupby(['weekday', 'hour'])['message'].count().unstack().fillna(0)
+    heatmap_data = df.groupby(['Day_name', 'hour'])['message'].count().unstack().fillna(0)
     return heatmap_data
 
 def hourly_distribution(user, df):
@@ -165,28 +165,28 @@ def calculate_response_time(df):
     df["prev_timestamp"] = df["timestamp"].shift(1)
 
     # Compute Response Time (only when user changes and same-day chat)
-    df["response_time"] = (df["timestamp"] - df["prev_timestamp"]).dt.total_seconds() / 60  # Convert to minutes
+    df["Response time (minutes)"] = (df["timestamp"] - df["prev_timestamp"]).dt.total_seconds() / 60  # Convert to minutes
 
     # Ignore consecutive messages from the same user
-    df.loc[df["user"] == df["prev_user"], "response_time"] = None
+    df.loc[df["user"] == df["prev_user"], "Response time (minutes)"] = None
 
-    df.loc[df["response_time"] > 240, "response_time"] = None
+    df.loc[df["response_time"] > 240, "Response time (minutes)"] = None
 
     # Drop columns
     df.drop(columns=["prev_user", "prev_timestamp"], inplace=True)
-    df['response_time'] = df['response_time'].fillna(0)
+    df['Response time (minutes)'] = df['Response time (minutes)'].fillna(0)
     return df
 
 # Calculate average response time per user
 def average_response_time_user(df):
     df=calculate_response_time(df)
-    avg_response_time = df.groupby("user")["response_time"].mean().dropna().reset_index()
+    avg_response_time = df.groupby("user")["Response time (minutes)"].mean().dropna().reset_index()
     avg_response_time.columns = ["User", "Avg Response Time (minutes)"]
     return avg_response_time
 
 
 def day_wise_response_time(df):
     df = calculate_response_time(df)
-    day_wise_response = df.groupby("weekday")["response_time"].mean().reset_index()
+    day_wise_response = df.groupby("Day_name")["Response time (minutes)"].mean().reset_index()
 
     return day_wise_response
