@@ -228,7 +228,7 @@ if uploaded_file is not None:
             response_time_df= helper.calculate_response_time(df)
             fig = px.histogram(response_time_df['response_time'], title='Overall response time',
                          color_discrete_sequence=px.colors.qualitative.Pastel, log_y=True,
-                               labels={'value': 'Response time', 'count': 'Number of messages'}
+                               labels={'value': 'Response time in minutes', 'count': 'Number of messages'}
                          )
 
             fig.update_layout(

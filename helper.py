@@ -160,13 +160,9 @@ def calculate_response_time(df):
     df = df[df["user"] != "group_notification"]
     df = df[df["user"] != "Meta AI"]
 
-    df["date"] = df["timestamp"].dt.date
-
     df = df.sort_values("timestamp")
     df["prev_user"] = df["user"].shift(1)
     df["prev_timestamp"] = df["timestamp"].shift(1)
-
-    df["prev_date"] = df["date"].shift(1)  # Shifted date for comparison
 
     # Compute Response Time (only when user changes and same-day chat)
     df["response_time"] = (df["timestamp"] - df["prev_timestamp"]).dt.total_seconds() / 60  # Convert to minutes
@@ -174,11 +170,10 @@ def calculate_response_time(df):
     # Ignore consecutive messages from the same user
     df.loc[df["user"] == df["prev_user"], "response_time"] = None
 
-    # Ignore response time when chat moves to a new day
-    df.loc[df["date"] != df["prev_date"], "response_time"] = None
+    df.loc[df["response_time"] > 240, "response_time"] = None
 
     # Drop extra columns
-    df.drop(columns=["prev_user", "prev_timestamp", "prev_date"], inplace=True)
+    df.drop(columns=["prev_user", "prev_timestamp"], inplace=True)
     df['response_time'] = df['response_time'].fillna(0)
     return df
 
