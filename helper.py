@@ -162,8 +162,10 @@ def calculate_response_time(df):
 
     df["date"] = df["timestamp"].dt.date
 
+    df = df.sort_values("timestamp")
     df["prev_user"] = df["user"].shift(1)
     df["prev_timestamp"] = df["timestamp"].shift(1)
+
     df["prev_date"] = df["date"].shift(1)  # Shifted date for comparison
 
     # Compute Response Time (only when user changes and same-day chat)
