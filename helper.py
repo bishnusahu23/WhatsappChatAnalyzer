@@ -74,8 +74,8 @@ def cleaned_message(df):
         stopwords = file.read()
 
     temp_df = df[df['user'] != 'group_notification']
-    temp_df = temp_df[temp_df['message'] != '<Media omitted>\n']
-    temp_df = temp_df[temp_df['message'] != 'This message was deleted\n']
+    temp_df = temp_df[temp_df['message'] != '<Media omitted>']
+    temp_df = temp_df[temp_df['message'] != 'This message was deleted']
     temp_df = temp_df[~temp_df['message'].str.strip().isin(['null', 'null\n', ''])]
 
     # remove urls and punctuation
