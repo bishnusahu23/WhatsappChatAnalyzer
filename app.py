@@ -84,7 +84,7 @@ if uploaded_file is not None:
     selected_user = "Overall"
 
     if user_analysis:
-        user_list = sorted(set(df['user']) - {"group_notification"})
+        user_list = sorted(set(df['user']) - {"group_notification","Meta AI"})
         user_list.insert(0, "Overall")
         selected_user = st.selectbox("Select a user", user_list)
 
