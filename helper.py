@@ -9,7 +9,7 @@ import string
 
 
 def preprocess(chat):
-    pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{1,2}'
+    pattern = r'\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{1,2}\s?(AM|PM)?'
     date = re.findall(pattern, chat)
     date = [x.replace(" - ", "") for x in date]
     text = re.split(pattern, chat)[1:]
