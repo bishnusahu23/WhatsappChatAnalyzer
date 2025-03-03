@@ -154,6 +154,11 @@ if uploaded_file is not None:
                 bgcolor="black"  # Tooltip background color
             )
         )
+        fig.update_xaxes(
+            tickmode="array",
+            tickvals=list(range(24)),  # Assuming 24-hour format
+            ticktext=[f"{i}" for i in range(24)]  # Custom labels
+        )
 
         fig.update_traces(
             textfont=dict(color="black"),
