@@ -232,7 +232,7 @@ if uploaded_file is not None:
                          )
 
             fig.update_layout(
-
+                showlegend=False,
                 hoverlabel=dict(
                     font_size=14,
                     font_family="Arial",
@@ -249,7 +249,7 @@ if uploaded_file is not None:
             col1,col2=st.columns(2)
             with col1:
                 avg_response_time = helper.average_response_time_user(df)
-                st.dataframe(avg_response_time,hide_index=True)
+                st.dataframe(avg_response_time,hide_index=True,use_container_width=True)
             with col2:
                 day_response=helper.day_wise_response_time(df)
                 st.dataframe(day_response,hide_index=True, use_container_width=True)
