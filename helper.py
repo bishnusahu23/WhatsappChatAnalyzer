@@ -193,17 +193,18 @@ def day_wise_response_time(df):
 
 
 def find_links(df, user):
-    if user!='Overall':
-        df=df[df['user']==user]
+    if user != 'Overall':
+        df = df[df['user'] == user]
+
     links = []
     dates = []
 
     for _, row in df.iterrows():
         message = row['message']
-        link = re.findall(r'http[s]?://\S+', message)
+        link_list = re.findall(r'http[s]?://\S+', message)  # Extract links
 
-        if link:
+        for link in link_list:  # Ensure each link gets a corresponding date entry
             dates.append(row['date'])
-            links.extend(link)
+            links.append(link)
 
     return pd.DataFrame({"Date": dates, "Links": links})
