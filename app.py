@@ -206,16 +206,23 @@ if uploaded_file is not None:
                              title="Most Used Emojis - Word Cloud")
 
             fig.update_traces(
-                textfont_size=30,  # Set emoji size manually
+                textfont_size=50,  # Set emoji size manually
                 textposition="middle center",
-                marker=dict(size=0, opacity=0)  # Hide marker (bubble)
+                textfont=dict(color="black")
+
             )
 
             fig.update_xaxes(visible=False)
             fig.update_yaxes(visible=False)
             fig.update_layout(
                 showlegend=False,
-                plot_bgcolor="white"
+                plot_bgcolor="black",
+                hoverlabel=dict(
+                    font_size=14,
+                    font_family="Arial",
+                    font_color="blue",  # Tooltip text color
+                    bgcolor="black"  # Tooltip background color
+                )
             )
 
             st.plotly_chart(fig)
