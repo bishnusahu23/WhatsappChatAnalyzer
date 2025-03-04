@@ -240,26 +240,9 @@ if uploaded_file is not None:
             col1,col2=st.columns(2)
             with col1:
 
-                st.dataframe(head)
+                st.dataframe(head,use_container_width=True,hide_index=True)
             with col2:
-                fig = px.bar(data_frame=tail, y='names', x='counts', orientation='h', title='Least active user',
-                             color_discrete_sequence=px.colors.qualitative.Pastel,
-                             labels={'names': 'Name', 'counts': 'Count of messages'})
-
-                fig.update_layout(
-
-                    hoverlabel=dict(
-                        font_size=14,
-                        font_family="Arial",
-                        font_color="blue",  # Tooltip text color
-                        bgcolor="black"  # Tooltip background color
-                    )
-                )
-
-                fig.update_traces(
-                    textfont=dict(color="black")
-                )
-                st.plotly_chart(fig)
+                st.dataframe(tail,use_container_width=True,hide_index=True)
 
             st.subheader("Response Time Analysis")
             st.caption("Analyzing how quickly users respond to messages.")
