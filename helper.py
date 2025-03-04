@@ -117,7 +117,7 @@ def create_wordcloud(user, df):
         df = df[df['user'] == user]
     words=cleaned_message(df)
 
-    wc = WordCloud( min_font_size=7, background_color=None,max_words=150).generate(" ".join(words))
+    wc = WordCloud(min_font_size=7,margin=0,prefer_horizontal=False, background_color=None,max_words=150).generate(" ".join(words))
     return wc
 
 def emoji_counter(user, df):
