@@ -233,25 +233,50 @@ if uploaded_file is not None:
         if selected_user=='Overall':
             dic=helper.most_active_user(df)
             dataframe=pd.DataFrame(dic)
+            dataframe=dataframe.sort_values('counts', ascending=False)
+            head=dataframe.head(10)
+            tail = dataframe.tail(10)
             st.subheader("Most Active Participants")
-            fig=px.bar( data_frame=dataframe,y='names',x='counts', orientation='h', title='Most active user',
-                        color_discrete_sequence=px.colors.qualitative.Pastel,
-                        labels={'names': 'Name', 'counts': 'Count of messages'})
+            col1,col2=st.columns(2)
+            with col1:
 
-            fig.update_layout(
+                fig=px.bar( data_frame=head,y='names',x='counts', orientation='h', title='Most active user',
+                            color_discrete_sequence=px.colors.qualitative.Pastel,
+                            labels={'names': 'Name', 'counts': 'Count of messages'})
 
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="blue",  # Tooltip text color
-                    bgcolor="black"  # Tooltip background color
+                fig.update_layout(
+
+                    hoverlabel=dict(
+                        font_size=14,
+                        font_family="Arial",
+                        font_color="blue",  # Tooltip text color
+                        bgcolor="black"  # Tooltip background color
+                    )
                 )
-            )
 
-            fig.update_traces(
-                textfont=dict(color="black")
-            )
-            st.plotly_chart(fig)
+                fig.update_traces(
+                    textfont=dict(color="black")
+                )
+                st.plotly_chart(fig)
+            with col2:
+                fig = px.bar(data_frame=tail, y='names', x='counts', orientation='h', title='Least active user',
+                             color_discrete_sequence=px.colors.qualitative.Pastel,
+                             labels={'names': 'Name', 'counts': 'Count of messages'})
+
+                fig.update_layout(
+
+                    hoverlabel=dict(
+                        font_size=14,
+                        font_family="Arial",
+                        font_color="blue",  # Tooltip text color
+                        bgcolor="black"  # Tooltip background color
+                    )
+                )
+
+                fig.update_traces(
+                    textfont=dict(color="black")
+                )
+                st.plotly_chart(fig)
 
             st.subheader("Response Time Analysis")
             st.caption("Analyzing how quickly users respond to messages.")
