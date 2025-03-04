@@ -121,7 +121,7 @@ def create_wordcloud(user, df):
     mask_size = (500, 500)  # Define the size of the word cloud
     mask = Image.new("L", mask_size, 255)  # Create a white canvas
     draw = ImageDraw.Draw(mask)
-    draw.ellipse((50, 100, 750, 700), fill=0)  # Draw an ellipse (adjust for best shape)
+    draw.ellipse((50, 100, 450, 400), fill=0)  # Draw an ellipse (adjust for best shape)
     mask = np.array(mask)
 
     wc = WordCloud(min_font_size=7,width=500, height=500,mode='RGBA', background_color='black',mask=mask,max_words=150).generate(" ".join(words))
