@@ -203,6 +203,13 @@ if uploaded_file is not None:
 
             st.plotly_chart(fig)
 
+        st.subheader('Links shared')
+        links_df=helper.find_links(df,selected_user)
+        st.dataframe(links_df, use_container_width=True,hide_index=True)
+
+
+
+
         if selected_user=='Overall':
             dic=helper.most_active_user(df)
             dataframe=pd.DataFrame(dic)

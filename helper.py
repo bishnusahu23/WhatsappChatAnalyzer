@@ -190,3 +190,20 @@ def day_wise_response_time(df):
     day_wise_response = df.groupby("Day_name")["Response time (minutes)"].mean().reset_index()
 
     return day_wise_response
+
+
+def find_links(df, user):
+    if user!='Overall':
+        df=df[df['user']==user]
+    links = []
+    dates = []
+
+    for _, row in df.iterrows():
+        message = row['message']
+        link = re.findall(r'http[s]?://\S+', message)
+
+        if link:
+            dates.append(row['date'])
+            links.extend(link)
+
+    return pd.DataFrame({"Date": dates, "Links": links})
