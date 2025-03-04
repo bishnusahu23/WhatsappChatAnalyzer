@@ -124,7 +124,7 @@ def create_wordcloud(user, df):
     draw.ellipse((20, 20, 600, 450), fill=0)  # Draw an ellipse (adjust for best shape)
     mask = np.array(mask)
 
-    wc = WordCloud(min_font_size=7,width=600, height=450,mode='RGBA', background_color=(0, 0, 0, 0.5),mask=mask,max_words=150).generate(" ".join(words))
+    wc = WordCloud(min_font_size=7,width=600, height=450,mode='RGBA', background_color='black',mask=mask,max_words=150).generate(" ".join(words))
     return wc
 
 def emoji_counter(user, df):

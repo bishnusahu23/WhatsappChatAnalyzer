@@ -181,13 +181,12 @@ if uploaded_file is not None:
         st.subheader("Most Frequently Used Words")
         st.caption("The larger the word, the more frequently it appears in the conversation.")
         wc = helper.create_wordcloud(selected_user, df)
-        img_path = "wordcloud.png"
-        wc.to_file(img_path)
 
-        # Display image in Streamlit
-        st.image(img_path,  use_container_width=True)
-
-
+        fig, ax = plt.subplots(figsize=(10, 10))
+        ax.imshow(wc, interpolation="bilinear")
+        ax.set_facecolor((0, 0, 0, 0.5))
+        ax.axis("off")
+        st.pyplot(fig)
 
         # Emoji Analysis
         st.subheader("Emoji Usage Analysis")
