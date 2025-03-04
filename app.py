@@ -35,8 +35,6 @@ def set_bg_from_local(image_path):
 
 set_bg_from_local("backgroundImage2.jpg")
 
-st.sidebar.title("Settings & Filters")
-
 
 st.title("WhatsApp Chat Analyzer")
 
@@ -187,16 +185,6 @@ if uploaded_file is not None:
         ax.imshow(wc, interpolation="bilinear")
         ax.axis("off")
         st.pyplot(fig)
-        if st.button("Download Image (Charts)"):
-            img_buffer = BytesIO()
-            wc = helper.create_wordcloud(selected_user, df)
-            fig, ax = plt.subplots(figsize=(10, 10))
-            ax.imshow(wc, interpolation="bilinear")
-            ax.axis("off")
-            fig.savefig(img_buffer, format='png',bbox_inches="tight")
-            img_buffer.seek(0)
-            st.sidebar.download_button("Download Image", img_buffer, "chat_analysis.png", "image/png")
-
 
         # Emoji Analysis
         st.subheader("Emoji Usage Analysis")
