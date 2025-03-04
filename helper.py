@@ -6,6 +6,7 @@ from collections import Counter
 import re
 import string
 import numpy as np
+from PIL import Image, ImageDraw
 
 
 def preprocess(chat):
@@ -116,11 +117,12 @@ def create_wordcloud(user, df):
     if user != 'Overall':
         df = df[df['user'] == user]
     words=cleaned_message(df)
-    x, y = np.ogrid[:800, :800]  # Adjust size
-    center_x, center_y = 400, 400  # Center of the oval
-    radius_x, radius_y = 300, 200  # Control width & height of the oval
-    mask = (x - center_x) ** 2 / radius_x ** 2 + (y - center_y) ** 2 / radius_y ** 2 > 1
-    mask = mask.astype(int)  # Convert to binary mask
+
+    mask_size = (800, 800)  # Define the size of the word cloud
+    mask = Image.new("L", mask_size, 255)  # Create a white canvas
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((50, 100, 750, 700), fill=0)  # Draw an ellipse (adjust for best shape)
+    mask = np.array(mask)
 
     wc = WordCloud(min_font_size=7,width=800, height=800,mode='RGBA', background_color=None,mask=mask,max_words=150).generate(" ".join(words))
     return wc
