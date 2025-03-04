@@ -185,7 +185,7 @@ if uploaded_file is not None:
         wc.to_file(img_path)
 
         # Display image in Streamlit
-        st.image(img_path, use_column_width=True)
+        st.image(img_path,  use_container_width=True)
 
 
 
