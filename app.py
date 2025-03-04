@@ -7,6 +7,7 @@ import zipfile
 import io
 import base64
 from io import BytesIO
+import random
 
 
 @st.cache_data
@@ -186,43 +187,40 @@ if uploaded_file is not None:
         wc.to_file(img_path)
 
         # Display image in Streamlit
-        st.image(img_path, use_column_width=True)
+        st.image(img_path, use_container_width=True)
 
         # Emoji Analysis
         st.subheader("Emoji Usage Analysis")
-        col1, col2 = st.columns(2)
-        with col1:
-            emojis = helper.emoji_counter(selected_user, df)
-            if emojis is None or emojis.empty:
-                st.write('No emojis found')
-            else:
-                st.dataframe({"Emoji": emojis[0], "Count": emojis[1]},hide_index=True, use_container_width=True)
-        with col2:
-            emojis = helper.emoji_counter(selected_user, df)
 
-            if emojis is None or emojis.empty:
-                pass
-            else:
-                df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
-                fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
-                             color_discrete_sequence=px.colors.qualitative.Pastel)
+        emojis = helper.emoji_counter(selected_user, df)
+        if emojis is not None and not emojis.empty:
+            # Convert emoji list into a DataFrame
+            df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
 
-                fig.update_layout(
-                    paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
-                    plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
-                    hoverlabel=dict(
-                        font_size=14,
-                        font_family="Arial",
-                        font_color="blue",  # Tooltip text color
-                        bgcolor="black"  # Tooltip background color
-                    )
-                )
+            # Generate random x, y positions to simulate a word cloud
+            df_emoji["x"] = [random.uniform(0, 1) for _ in range(len(df_emoji))]
+            df_emoji["y"] = [random.uniform(0, 1) for _ in range(len(df_emoji))]
 
-                fig.update_traces(
-                    textfont=dict(color="black"),
-                )
+            # Create scatter plot as an emoji word cloud WITHOUT bubbles
+            fig = px.scatter(df_emoji, x="x", y="y", text="Emoji",
+                             title="Most Used Emojis - Word Cloud")
 
-                st.plotly_chart(fig)
+            fig.update_traces(
+                textfont_size=30,  # Set emoji size manually
+                textposition="middle center",
+                marker=dict(size=0, opacity=0)  # Hide marker (bubble)
+            )
+
+            fig.update_xaxes(visible=False)
+            fig.update_yaxes(visible=False)
+            fig.update_layout(
+                showlegend=False,
+                plot_bgcolor="white"
+            )
+
+            st.plotly_chart(fig)
+        else:
+            st.write("No emojis found in the chat.")
 
         st.subheader('LLinks Shared in the Chat')
         links_df=helper.find_links(df,selected_user)
