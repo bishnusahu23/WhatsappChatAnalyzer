@@ -234,15 +234,30 @@ if uploaded_file is not None:
             dic=helper.most_active_user(df)
             dataframe=pd.DataFrame(dic)
             dataframe=dataframe.sort_values('counts', ascending=False)
-            head=dataframe.head(10)
-            tail = dataframe.tail(10)
-            st.subheader("Most Active Participants")
-            col1,col2=st.columns(2)
-            with col1:
 
-                st.dataframe(head,use_container_width=True,hide_index=True)
-            with col2:
-                st.dataframe(tail,use_container_width=True,hide_index=True)
+            st.subheader("Most to least active Participants")
+            st.dataframe(dataframe, use_container_width=True, hide_index=True)
+
+            # line chart
+            st.subheader('Messages over time')
+            temp=df.groupby('date')['message'].count().reset_index()
+            fig=px.line(temp,x='date',y='message',title='Count of messages over time',
+                        color_discrete_sequence=px.colors.qualitative.Pastel,
+                        labels={'date': 'Date', 'message': 'Number of messages'})
+            fig.update_layout(
+                showlegend=False,
+                hoverlabel=dict(
+                    font_size=14,
+                    font_family="Arial",
+                    font_color="blue",  # Tooltip text color
+                    bgcolor="black"  # Tooltip background color
+                )
+            )
+
+            fig.update_traces(
+                textfont=dict(color="black")
+            )
+            st.plotly_chart(fig)
 
             st.subheader("Response Time Analysis")
             st.caption("Analyzing how quickly users respond to messages.")
