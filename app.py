@@ -205,9 +205,10 @@ if uploaded_file is not None:
 
         st.subheader('Links shared')
         links_df=helper.find_links(df,selected_user)
-        st.dataframe(links_df, use_container_width=True,hide_index=True)
-
-
+        if links_df is None or links_df.empty:
+            st.write('No links found in the chat')
+        else:
+            st.dataframe(links_df, use_container_width=True,hide_index=True)
 
 
         if selected_user=='Overall':
