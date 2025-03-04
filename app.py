@@ -142,6 +142,7 @@ if uploaded_file is not None:
 
         # Weekly Activity Heatmap
         st.subheader("Weekly Activity Heatmap")
+        st.caption("The darker the area, the higher the message frequency at the corresponding day and time")
         heatmap = helper.weekly_activity_heatmap(selected_user, df)
         fig = px.imshow(heatmap,color_continuous_scale='Blues', title="Messages Heatmap",
                         labels={'x': 'Hour of the Day', 'y': 'Day of the Week'}, text_auto=True)
