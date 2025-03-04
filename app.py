@@ -183,7 +183,7 @@ if uploaded_file is not None:
         wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(figsize=(10, 10))
         ax.imshow(wc, interpolation="bilinear")
-        ax.set_facecolor("none")
+
         ax.axis("off")
         st.pyplot(fig)
 
