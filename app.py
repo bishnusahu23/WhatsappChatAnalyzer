@@ -37,14 +37,6 @@ set_bg_from_local("backgroundImage2.jpg")
 
 st.sidebar.title("Settings & Filters")
 
-dark_mode = st.sidebar.toggle("Dark Mode")
-if dark_mode:
-    st.markdown(
-        """<style>
-        body { background-color: #1e1e1e; color: white; }
-        """, unsafe_allow_html=True
-    )
-
 
 st.title("WhatsApp Chat Analyzer")
 
@@ -104,14 +96,6 @@ if uploaded_file is not None:
         user_list = sorted(set(df['user']) - {"group_notification","Meta AI"})
         user_list.insert(0, "Overall")
         selected_user = st.selectbox("Select a user", user_list)
-
-    st.sidebar.subheader("Export Data")
-
-    if st.sidebar.button("Download Image (Charts)"):
-        img_buffer = BytesIO()
-        plt.savefig(img_buffer, format='png')
-        img_buffer.seek(0)
-        st.sidebar.download_button("Download Image", img_buffer, "chat_analysis.png", "image/png")
 
     if st.button("Show Analysis"):
         # Top Statistics
@@ -195,6 +179,7 @@ if uploaded_file is not None:
         st.plotly_chart(fig)
 
         # Wordcloud
+
         st.subheader("Most Frequently Used Words")
         st.caption("The larger the word, the more frequently it appears in the conversation.")
         wc = helper.create_wordcloud(selected_user, df)
@@ -202,6 +187,15 @@ if uploaded_file is not None:
         ax.imshow(wc, interpolation="bilinear")
         ax.axis("off")
         st.pyplot(fig)
+        if st.button("Download Image (Charts)"):
+            img_buffer = BytesIO()
+            wc = helper.create_wordcloud(selected_user, df)
+            fig, ax = plt.subplots(figsize=(10, 10))
+            ax.imshow(wc, interpolation="bilinear")
+            ax.axis("off")
+            fig.savefig(img_buffer, format='png',bbox_inches="tight")
+            img_buffer.seek(0)
+            st.sidebar.download_button("Download Image", img_buffer, "chat_analysis.png", "image/png")
 
 
         # Emoji Analysis
