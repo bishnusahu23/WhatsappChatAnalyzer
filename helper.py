@@ -119,7 +119,7 @@ def create_wordcloud(user, df):
     words=cleaned_message(df)
 
     mask_size = (800, 800)  # Define the size of the word cloud
-    mask = Image.new("L", mask_size, 255)  # Create a white canvas
+    mask = Image.new("L", mask_size, 0)  # Create a white canvas
     draw = ImageDraw.Draw(mask)
     draw.ellipse((50, 100, 750, 700), fill=0)  # Draw an ellipse (adjust for best shape)
     mask = np.array(mask)
