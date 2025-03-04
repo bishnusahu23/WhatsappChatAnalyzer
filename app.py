@@ -186,10 +186,12 @@ if uploaded_file is not None:
             else:
                 st.dataframe({"Emoji": emojis[0], "Count": emojis[1]},hide_index=True)
         with col2:
-            df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
-            if df_emoji is None or df_emoji.empty:
+            emojis = helper.emoji_counter(selected_user, df)
+
+            if emojis is None or emojis.empty:
                 pass
             else:
+                df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
                 fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
                              color_discrete_sequence=px.colors.qualitative.Pastel)
 
