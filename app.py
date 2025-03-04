@@ -183,6 +183,7 @@ if uploaded_file is not None:
         wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(figsize=(10, 10))
         ax.imshow(wc, interpolation="bilinear")
+        ax.set_facecolor("none")
         ax.axis("off")
         st.pyplot(fig)
 
@@ -238,26 +239,6 @@ if uploaded_file is not None:
             st.subheader("Most to least active Participants")
             st.dataframe(dataframe, use_container_width=True, hide_index=True)
 
-            # line chart
-            st.subheader('Messages over time')
-            temp=df.groupby('date')['message'].count().reset_index()
-            fig=px.line(temp,x='date',y='message',title='Count of messages over time',
-                        color_discrete_sequence=px.colors.qualitative.Pastel,
-                        labels={'date': 'Date', 'message': 'Number of messages'})
-            fig.update_layout(
-                showlegend=False,
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="blue",  # Tooltip text color
-                    bgcolor="black"  # Tooltip background color
-                )
-            )
-
-            fig.update_traces(
-                textfont=dict(color="black")
-            )
-            st.plotly_chart(fig)
 
             st.subheader("Response Time Analysis")
             st.caption("Analyzing how quickly users respond to messages.")
