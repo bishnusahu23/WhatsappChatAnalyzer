@@ -167,7 +167,8 @@ if uploaded_file is not None:
         st.plotly_chart(fig)
 
         # Wordcloud
-        st.subheader("Wordcloud")
+        st.subheader("Most used words")
+        st.caption("The larger the word, the more frequently it appears in the conversation.")
         wc = helper.create_wordcloud(selected_user, df)
         fig, ax = plt.subplots(figsize=(10, 10))
         ax.imshow(wc, interpolation="bilinear")
@@ -180,28 +181,34 @@ if uploaded_file is not None:
         col1, col2 = st.columns(2)
         with col1:
             emojis = helper.emoji_counter(selected_user, df)
-            st.dataframe({"Emoji": emojis[0], "Count": emojis[1]},hide_index=True)
+            if emojis.empty:
+                st.write('No emojis found')
+            else:
+                st.dataframe({"Emoji": emojis[0], "Count": emojis[1]},hide_index=True)
         with col2:
             df_emoji = pd.DataFrame({"Emoji": emojis[0], "Count": emojis[1]})
-            fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
-                         color_discrete_sequence=px.colors.qualitative.Pastel)
+            if df_emoji.empty:
+                pass
+            else:
+                fig = px.pie(df_emoji, names="Emoji", values="Count", title="Most Used Emojis",
+                             color_discrete_sequence=px.colors.qualitative.Pastel)
 
-            fig.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
-                plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
-                hoverlabel=dict(
-                    font_size=14,
-                    font_family="Arial",
-                    font_color="blue",  # Tooltip text color
-                    bgcolor="black"  # Tooltip background color
+                fig.update_layout(
+                    paper_bgcolor="rgba(0,0,0,0)",  # Fully transparent background
+                    plot_bgcolor="rgba(0,0,0,0)",  # Transparent plot area
+                    hoverlabel=dict(
+                        font_size=14,
+                        font_family="Arial",
+                        font_color="blue",  # Tooltip text color
+                        bgcolor="black"  # Tooltip background color
+                    )
                 )
-            )
 
-            fig.update_traces(
-                textfont=dict(color="black"),
-            )
+                fig.update_traces(
+                    textfont=dict(color="black"),
+                )
 
-            st.plotly_chart(fig)
+                st.plotly_chart(fig)
 
         st.subheader('Links shared')
         links_df=helper.find_links(df,selected_user)
