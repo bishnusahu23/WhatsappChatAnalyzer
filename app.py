@@ -106,9 +106,7 @@ if uploaded_file is not None:
         selected_user = st.selectbox("Select a user", user_list)
 
     st.sidebar.subheader("Export Data")
-    if st.sidebar.button("Download CSV"):
-        csv = df.to_csv(index=False).encode('utf-8')
-        st.sidebar.download_button("Download CSV", csv, "chat_analysis.csv", "text/csv")
+
     if st.sidebar.button("Download Image (Charts)"):
         img_buffer = BytesIO()
         plt.savefig(img_buffer, format='png')
