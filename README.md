@@ -58,7 +58,9 @@ streamlit run app.py
 
 ## 🚀 Try It Out
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://whatsapp-chat-analyzer-wu9evagvjtdffbfmkf2.streamlit.app/)
+👉 **Important**: If the app doesn't load properly, try right-clicking the link and choosing **"Open in new tab"**, or copy and paste it into your browser.
+
+🔗 [Run on Streamlit](https://whatsapp-chat-analyzer-wu9evagvjtdffbfmkf2.streamlit.app/)
 
 
 ## 📂 File Structure
