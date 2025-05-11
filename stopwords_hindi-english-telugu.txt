@@ -1160,6 +1160,8 @@ don't
 mail
 contact
 gmail.com
+com
+@gmail
 login
 requirement
 detail
