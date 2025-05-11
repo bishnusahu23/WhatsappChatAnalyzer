@@ -58,7 +58,6 @@ streamlit run app.py
 
 [Run on Streamlit](https://whatsapp-chat-analyzer-wu9evagvjtdffbfmkf2.streamlit.app/)
 
-
 ## 📂 File Structure
 ```
 📦 whatsapp-chat-analyzer
