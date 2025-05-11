@@ -85,7 +85,7 @@ def cleaned_message(df):
         text = re.sub(r'http[s]?://\S+', '', text)  # Remove URLs
         text = re.sub(r'[@]?\d{10,}', '', text)  # Remove numbers like @1234567890
         text = re.sub(r'<.*?>', '', text)  # Remove HTML tags
-
+        text = re.sub(r'\S+@\S+\.\S+', '', text) #remove emails
         tokens = text.split()  # Tokenize text (split into words)
 
         tokens = [word for word in tokens if word not in string.punctuation]  # Remove punctuation
