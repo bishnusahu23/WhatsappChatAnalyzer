@@ -1159,7 +1159,7 @@ contract
 don't
 mail
 contact
-gmail login
+gmail.com
 login
 requirement
 detail
