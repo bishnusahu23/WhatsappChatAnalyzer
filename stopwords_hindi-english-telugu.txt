@@ -1159,8 +1159,12 @@ contract
 don't
 mail
 contact
-Gmail
+gmail login
+login
+requirement
+detail
 resume
+
 
 
 
